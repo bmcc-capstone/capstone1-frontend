@@ -16,6 +16,12 @@ const NavBar = ({ user, onLogout }) => {
             <button onClick={onLogout} className="logout-btn">
               Logout
             </button>
+            <Link to="/CreatePollForm" className="nav-link">
+              Create A Poll
+            </Link>
+            <Link to="/MyPoll" className="nav-link">
+              My Polls
+            </Link>
           </div>
         ) : (
           <div className="auth-links">
