@@ -1,0 +1,52 @@
+.mypoll-container {
+    max-width: 700px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.07);
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  .mypoll-container h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    color: #333;
+  }
+  
+  .error-message {
+    color: red;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
+  .poll-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .poll-item {
+    border-bottom: 1px solid #eee;
+    padding: 1rem 0;
+  }
+  
+  .poll-item h3 {
+    margin: 0 0 0.5rem 0;
+    color: #555;
+  }
+  
+  .poll-item p {
+    margin: 0.3rem 0;
+  }
+  
+  .option-list {
+    margin-top: 0.5rem;
+    padding-left: 1rem;
+  }
+  
+  .option-list li {
+    list-style-type: disc;
+    color: #666;
+  }
+  
