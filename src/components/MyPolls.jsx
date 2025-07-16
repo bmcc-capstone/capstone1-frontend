@@ -17,8 +17,8 @@ const MyPoll = () => {
         setPolls(response.data);
 
         const response2 = await axios.get(
-            "https://localhost:8080/api/poll-options/options/1",
-            { withCredentials: true }
+          "http://localhost:8080/api/poll-options/options/1",
+          { withCredentials: true }
         )
         setPollOptions(response2.data);
       } catch (err) {
@@ -48,8 +48,11 @@ const MyPoll = () => {
                 <strong>Options:</strong>
               </p>
               <ul className="option-list">
-                {pollOption.map((opt, index) => (
-                  <li key={index}>{opt.text}</li>
+                {pollOptions.map((option) => (
+                  <li key={option.option_id} className="poll-option">
+                    <h3>{option.option_text}</h3>
+                  </li>
+                  
                 ))}
               </ul>
             </li>
