@@ -56,6 +56,8 @@ const Login = ({ setUser }) => {
     } finally {
       setIsLoading(false);
     }
+
+    navigate("/MyPolls");
   };
 
   const handleChange = (e) => {
