@@ -5,7 +5,8 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  background-color: #f8f9fa;
+  background-color: #3f2e26; /* deeper brown */
+box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   padding: 1rem 2rem;
   border-bottom: 1px solid #e9ecef;
 }
@@ -13,17 +14,22 @@
 .nav-brand a {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #333;
+  color: #fffaf0; /* off-white */
   text-decoration: none;
 }
 
 .nav-brand a:hover {
-  color: #007bff;
+  color: #f3bc77; /* warm highlight on hover */
 }
 
 .nav-links {
   display: flex;
   align-items: center;
+  color: #fffaf0;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: all 0.3s;
+  font-weight: 500;
 }
 
 .auth-links {
@@ -33,7 +39,7 @@
 }
 
 .nav-link {
-  color: #666;
+  color: #fffaf0; /* off-white */
   text-decoration: none;
   padding: 0.5rem 1rem;
   border-radius: 4px;
@@ -41,8 +47,9 @@
 }
 
 .nav-link:hover {
-  color: #007bff;
-  background-color: #e9ecef;
+  background-color: #f3bc77;
+  color: #3f2e26;
+  transform: scale(1.05);
 }
 
 .user-section {
@@ -52,13 +59,13 @@
 }
 
 .username {
-  color: #666;
+  color: #fffaf0;
   font-weight: 500;
 }
 
 .logout-btn {
-  background-color: #dc3545;
-  color: white;
+  background-color: #a0522d; /* saddle brown */
+  color: #fffaf0;
   border: none;
   padding: 0.5rem 1rem;
   border-radius: 4px;
@@ -68,5 +75,5 @@
 }
 
 .logout-btn:hover {
-  background-color: #c82333;
+  background-color: #8b4513; /* darker brown */
 }

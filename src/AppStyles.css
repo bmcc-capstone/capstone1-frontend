@@ -5,10 +5,6 @@
   font-family: "Raleway", sans-serif;
 }
 
-body {
-  background-color: #fff;
-}
-
 .title {
   color: #ffffff;
   font-size: 3rem;
@@ -38,4 +34,9 @@ body {
   width: 100px;
   height: 100px;
   animation: spin 15s linear infinite;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: #f3e5d7; /* Or match your main card background */
 }
