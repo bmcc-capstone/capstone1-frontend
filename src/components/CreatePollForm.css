@@ -133,3 +133,10 @@ button[type="submit"]:hover {
   color: #444;
   cursor: pointer;
 }
+input[type="date"] {
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
