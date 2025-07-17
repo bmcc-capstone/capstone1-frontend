@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "./CreatePollForm.css"; 
+import "./CreatePollForm.css";
 
 const CreatePollForm = () => {
   const [title, setTitle] = useState("");
@@ -34,9 +34,9 @@ const CreatePollForm = () => {
       const payload = {
         title,
         description,
-        public: publicPoll, 
+        public: publicPoll,
         expires_date: expirationDate || null,
-        options: options.filter((opt) => opt.trim() !== "")
+        options: options.filter((opt) => opt.trim() !== ""),
       };
 
       if (payload.options.length < 2) {
@@ -44,9 +44,13 @@ const CreatePollForm = () => {
         return;
       }
 
-      const response = await axios.post("http://localhost:8080/api/polls/createpoll/${userId}", payload, {
-        withCredentials: true
-      });
+      const response = await axios.post(
+        "http://localhost:8080/api/polls/createpoll/${userId}",
+        payload,
+        {
+          withCredentials: true,
+        }
+      );
 
       setMessage("Vote Poll Created Successfully ✅");
       setTitle("");
