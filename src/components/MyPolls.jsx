@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./MyPolls.css";
+import { useParams } from "react-router-dom";
 
 const MyPoll = () => {
   const [polls, setPolls] = useState([]);
@@ -11,13 +12,13 @@ const MyPoll = () => {
     const fetchMyPollsAndOptions = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8080/api/polls/user/1",
+          `http://localhost:8080/api/polls/user/${id}`,
           { withCredentials: true }
         );
         setPolls(response.data);
 
         const response2 = await axios.get(
-          "http://localhost:8080/api/poll-options/options/1",
+          `http://localhost:8080/api/poll-options/options/${id}`,
           { withCredentials: true }
         )
         setPollOptions(response2.data);
@@ -45,15 +46,14 @@ const MyPoll = () => {
               <h3>{poll.title}</h3>
               <p>{poll.description}</p>
               <p>
-                <strong>Options:</strong>
               </p>
               <ul className="option-list">
-                {pollOptions.map((option) => (
+                {/* {pollOptions.map((option) => (
                   <li key={option.option_id} className="poll-option">
                     <h3>{option.option_text}</h3>
                   </li>
                   
-                ))}
+                ))} */}
               </ul>
             </li>
           ))}
