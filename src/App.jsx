@@ -17,6 +17,7 @@ import { API_URL } from "./shared";
 import CreatePollForm from "./components/CreatePollForm";
 import MyPolls from "./components/MyPolls";
 import LivePolls from "./components/LivePolls";
+import PollForm from "./components/PollForm";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -60,15 +61,15 @@ const App = () => {
       <NavBar user={user} onLogout={handleLogout} />
       <div className="app">
         <Routes>
-        <Route path="/CreatePollForm" element={<CreatePollForm />} />
-        <Route path="/livepoll/:pollId" element={<LivePolls />} />
-        <Route path="/My Polls" element={<MyPolls />} />
+          <Route path="/CreatePollForm" element={<CreatePollForm />} />
+          <Route path="/livepoll/:pollId" element={<LivePolls />} />
+          <Route path="/My Polls" element={<MyPolls />} />
 
           <Route path="/login" element={<Login setUser={setUser} />} />
           <Route path="/signup" element={<Signup setUser={setUser} />} />
           <Route exact path="/" element={<Home />} />
-          <Route path="*" element={<NotFound/>} />
-          <Route path="/MyPolls" element={<MyPolls/>}/>
+          <Route path="*" element={<NotFound />} />
+          <Route path="/MyPolls" element={<MyPolls />} />
           <Route path="*" element={<NotFound />} />
           <Route path="/PollForm/:poll_id" element={<PollForm user={user} />} />
         </Routes>
