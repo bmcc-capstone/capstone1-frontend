@@ -11,6 +11,7 @@ import NotFound from "./components/NotFound";
 import { API_URL } from "./shared";
 import CreatePollForm from "./components/CreatePollForm";
 import MyPolls from "./components/MyPolls";
+import LivePolls from "./components/LivePolls";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -54,6 +55,7 @@ const App = () => {
       <div className="app">
         <Routes>
         <Route path="/CreatePollForm" element={<CreatePollForm />} />
+        <Route path="/livepoll/:pollId" element={<LivePolls />} />
         <Route path="/My Polls" element={<MyPolls />} />
           <Route path="/login" element={<Login setUser={setUser} />} />
           <Route path="/signup" element={<Signup setUser={setUser} />} />
