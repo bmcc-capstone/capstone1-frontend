@@ -24,6 +24,7 @@ const NavBar = ({ user, onLogout }) => {
             <button onClick={onLogout} className="logout-btn">
               Logout
             </button>
+        
           </div>
         ) : (
           <div className="auth-links">

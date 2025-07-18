@@ -46,7 +46,8 @@ const Login = ({ setUser }) => {
       });
 
       setUser(response.data.user);
-      navigate("/");
+      navigate("/MyPolls");
+
     } catch (error) {
       if (error.response?.data?.error) {
         setErrors({ general: error.response.data.error });
@@ -56,6 +57,8 @@ const Login = ({ setUser }) => {
     } finally {
       setIsLoading(false);
     }
+
+    
   };
 
   const handleChange = (e) => {

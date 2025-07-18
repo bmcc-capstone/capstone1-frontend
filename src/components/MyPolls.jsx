@@ -1,27 +1,32 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./MyPolls.css";
+import { API_URL } from "../shared";
 
 const MyPoll = () => {
   const [polls, setPolls] = useState([]);
   const [error, setError] = useState("");
 
+// fetching user polls using username and user_id 
   useEffect(() => {
-    const fetchMyPolls = async () => {
+    const fetchUserPolls = async () => {
       try {
-        const response = await axios.get(
-          'http://localhost:8080/api/polls/user/${userId}',
-          { withCredentials: true }
-        );
+        const userData = await axios.get(`${API_URL}/auth/me`, {withCredentials: true,});
+        const username = userData.data.user?.username;
+        if (!username) throw new Error("No username found");
 
-        setPolls(response.data);
+        const findId = await axios.get(`${API_URL}/api/userId/${username}`, {withCredentials: true});
+        const userId = findId.data.user_id;
+
+        const findPolls = await axios.get(`${API_URL}/api/polls/user/${userId}`, {withCredentials: true});
+        setPolls(findPolls.data);
       } catch (err) {
         console.error(err);
         setError("Failed to load your polls ❌");
       }
     };
 
-    fetchMyPolls();
+    fetchUserPolls();
   }, []);
 
   return (
@@ -35,16 +40,18 @@ const MyPoll = () => {
       ) : (
         <ul className="poll-list">
           {polls.map((poll) => (
-            <li key={poll.id} className="poll-item">
+            <li key={poll.poll_id} className="poll-item">
               <h3>{poll.title}</h3>
               <p>{poll.description}</p>
               <p>
-                <strong>Options:</strong>
               </p>
               <ul className="option-list">
-                {poll.options.map((opt, index) => (
-                  <li key={index}>{opt.text}</li>
-                ))}
+                {/* {pollOptions.map((option) => (
+                  <li key={option.option_id} className="poll-option">
+                    <h3>{option.option_text}</h3>
+                  </li>
+                  
+                ))} */}
               </ul>
             </li>
           ))}
