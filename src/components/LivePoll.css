@@ -1,0 +1,81 @@
+.livepoll-container {
+    max-width: 600px;
+    margin: 3rem auto;
+    padding: 2rem 2.5rem;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    font-family: Arial, sans-serif;
+  }
+  
+  .livepoll-container h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 1rem;
+  }
+  
+  .livepoll-container p {
+    text-align: center;
+    color: #666;
+    margin-bottom: 1rem;
+  }
+  
+  .livepoll-info {
+    margin: 1rem 0;
+    font-size: 0.95rem;
+    text-align: center;
+    color: #555;
+  }
+  
+  .livepoll-options {
+    list-style: none;
+    padding: 0;
+    margin-top: 2rem;
+  }
+  
+  .livepoll-options li {
+    margin-bottom: 1rem;
+  }
+  
+  .option-text {
+    font-weight: bold;
+    margin-bottom: 0.3rem;
+  }
+  
+  .option-bar {
+    background: #ddd;
+    border-radius: 10px;
+    height: 20px;
+    overflow: hidden;
+  }
+  
+  .option-bar .fill {
+    background: linear-gradient(90deg, #4caf50, #81c784);
+    height: 100%;
+  }
+  
+  .option-info {
+    text-align: right;
+    font-size: 0.85rem;
+    margin-top: 0.2rem;
+    color: #444;
+  }
+  
+  /* User Count */
+  .user-count {
+    text-align: center;
+    margin-top: 1rem;
+    font-weight: bold;
+    color: #555;
+    font-size: 1.1rem;
+  }
+  
+  /* Loading / Error States */
+  .livepoll-loading,
+  .livepoll-error {
+    text-align: center;
+    font-size: 1.2rem;
+    margin-top: 3rem;
+    color: #ff5555;
+  }
+  
