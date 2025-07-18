@@ -18,7 +18,7 @@ const CreatePollForm = () => {
 
   const addOption = () => {
     setOptions([...options, ""]);
-  };
+  };  
 
   const removeOption = (index) => {
     if (options.length > 2) {
@@ -34,15 +34,18 @@ const CreatePollForm = () => {
       const payload = {
         title,
         description,
-        public: publicPoll,
-        expires_date: expirationDate || null,
-        options: options.filter((opt) => opt.trim() !== ""),
+
+        public: publicPoll, 
+        expires_date: expirationDate,
+        options: options.filter((opt) => opt.trim() !== "")
+
       };
 
       if (payload.options.length < 2) {
         setMessage("Please provide at least 2 options ❗");
         return;
       }
+
 
       const response = await axios.post(
         "http://localhost:8080/api/polls/createpoll/${userId}",
@@ -111,11 +114,11 @@ const CreatePollForm = () => {
           </button>
         </div>
 
-        <label>Expiration Date (optional):</label>
+        <label>Expiration Date & Time (Mandatory):</label>
         <input
-          type="date"
+          type="datetime-local"
           value={expirationDate}
-          onChange={(e) => setExpirationDate(e.target.value)}
+          onChange={(e) => setExpirationDate(e.target.value)} required
         />
 
         <div className="public-poll-checkbox">

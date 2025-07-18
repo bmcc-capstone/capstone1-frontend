@@ -10,7 +10,7 @@ const MyPoll = () => {
     const fetchMyPolls = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8080/api/polls/my-polls",
+          'http://localhost:8080/api/polls/user/${userId}',
           { withCredentials: true }
         );
 
