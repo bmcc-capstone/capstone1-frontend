@@ -70,7 +70,7 @@ const App = () => {
           <Route path="*" element={<NotFound/>} />
           <Route path="/MyPolls" element={<MyPolls/>}/>
           <Route path="*" element={<NotFound />} />
-          <Route path="/PollForm/:poll_id" element={<PollForm user={user} />} />
+          {/* <Route path="/PollForm/:poll_id" element={<PollForm user={user} />} /> */}
         </Routes>
       </div>
     </div>

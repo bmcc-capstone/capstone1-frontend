@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./MyPolls.css";
 import { API_URL } from "../shared";
+import PollCard from "./pollCard";
 
 const MyPoll = () => {
   const [polls, setPolls] = useState([]);
@@ -38,24 +39,15 @@ const MyPoll = () => {
       {polls.length === 0 && !error ? (
         <p>You haven't created any polls yet.</p>
       ) : (
-        <ul className="poll-list">
+        <div className="poll-list">
           {polls.map((poll) => (
-            <li key={poll.poll_id} className="poll-item">
-              <h3>{poll.title}</h3>
-              <p>{poll.description}</p>
-              <p>
-              </p>
-              <ul className="option-list">
-                {/* {pollOptions.map((option) => (
-                  <li key={option.option_id} className="poll-option">
-                    <h3>{option.option_text}</h3>
-                  </li>
-                  
-                ))} */}
-              </ul>
-            </li>
+              <PollCard
+                id={poll.poll_id} 
+                title={poll.title}
+                description={poll.description}
+              />
           ))}
-        </ul>
+        </div>
       )}
     </div>
   );
