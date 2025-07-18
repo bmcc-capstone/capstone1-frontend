@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { API_URL } from "../shared";
 
 const PollForm = (user) => {
   // Get poll_id from URL params (React Router)
@@ -16,12 +17,9 @@ const PollForm = (user) => {
   useEffect(() => {
     const fetchOptions = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/poll-options/${poll_id}`,
-          {
-            withCredentials: true,
-          }
-        );
+        const response = await axios.get(`${API_URL}/poll-options/${poll_id}`, {
+          withCredentials: true,
+        });
         setOptions(response.data);
       } catch (error) {
         console.error("Failed to fetch poll options:", error);
@@ -63,7 +61,7 @@ const PollForm = (user) => {
     try {
       // Send PATCH request with ranked options to update ranks in backend
       const response = await axios.patch(
-        `http://localhost:8080/ballotItems/update-rankings`,
+        `${API_URL}/ballotItems/update-rankings`,
         {
           updates: rankedOptions,
           poll_id,
