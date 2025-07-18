@@ -1,34 +1,32 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./MyPolls.css";
-import { useParams } from "react-router-dom";
+import { API_URL } from "../shared";
 
 const MyPoll = () => {
   const [polls, setPolls] = useState([]);
   const [error, setError] = useState("");
-  const [pollOptions, setPollOptions] = useState([]);
 
+// fetching user polls using username and user_id 
   useEffect(() => {
-    const fetchMyPollsAndOptions = async () => {
+    const fetchUserPolls = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/api/polls/user/${id}`,
-          { withCredentials: true }
-        );
-        setPolls(response.data);
+        const userData = await axios.get(`${API_URL}/auth/me`, {withCredentials: true,});
+        const username = userData.data.user?.username;
+        if (!username) throw new Error("No username found");
 
-        const response2 = await axios.get(
-          `http://localhost:8080/api/poll-options/options/${id}`,
-          { withCredentials: true }
-        )
-        setPollOptions(response2.data);
+        const findId = await axios.get(`${API_URL}/api/userId/${username}`, {withCredentials: true});
+        const userId = findId.data.user_id;
+
+        const findPolls = await axios.get(`${API_URL}/api/polls/user/${userId}`, {withCredentials: true});
+        setPolls(findPolls.data);
       } catch (err) {
         console.error(err);
         setError("Failed to load your polls ❌");
       }
     };
 
-    fetchMyPollsAndOptions();
+    fetchUserPolls();
   }, []);
 
   return (
