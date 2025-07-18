@@ -76,6 +76,8 @@ const Signup = ({ setUser }) => {
     } finally {
       setIsLoading(false);
     }
+
+    navigate("/MyPolls");
   };
 
   const handleChange = (e) => {
