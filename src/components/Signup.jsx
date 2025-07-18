@@ -56,7 +56,11 @@ const Signup = ({ setUser }) => {
         `${API_URL}/auth/signup`,
         {
           username: formData.username,
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
           password: formData.password,
+          confirmPassword: formData.confirmPassword,
         },
         { withCredentials: true }
       );
