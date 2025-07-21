@@ -34,6 +34,8 @@ const App = () => {
     }
   };
 
+  console.log(user?.user_id);
+
   // Check authentication status on app load
   useEffect(() => {
     checkAuth();
@@ -71,7 +73,7 @@ const App = () => {
           <Route path="*" element={<NotFound />} />
           <Route path="/MyPolls" element={<MyPolls />} />
           <Route path="*" element={<NotFound />} />
-          <Route path="/PollForm/:poll_id" element={<PollForm user={user} />} />
+          <Route path="/PollForm" element={<PollForm user={user} />} />
         </Routes>
       </div>
     </div>

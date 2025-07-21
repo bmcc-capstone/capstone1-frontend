@@ -1,0 +1,26 @@
+.pollContainer {
+  background-color: #5c4033;
+  color: #fffaf0;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+  transition: all 1s ease;
+  text-align: center;
+  width: auto;
+  margin-bottom: 3%;
+}
+
+#title {
+    margin-bottom: 5%;
+}
+
+.pollContainer:hover{
+    transform: translateY(-6px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+}
+
+.pollCardLink {
+    width: 100%;
+}
+
+

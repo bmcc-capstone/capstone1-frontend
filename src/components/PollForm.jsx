@@ -64,7 +64,7 @@ const PollForm = (user) => {
         `${API_URL}/ballotItems/update-rankings`,
         {
           updates: rankedOptions,
-          poll_id,
+          //   poll_id,
         },
         { withCredentials: true }
       );
@@ -75,4 +75,4 @@ const PollForm = (user) => {
   return <h1></h1>;
 };
 
-module.export = PollForm;
+export default PollForm;

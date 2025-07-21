@@ -13,7 +13,7 @@ const NavBar = ({ user, onLogout }) => {
         {user ? (
           <div className="user-section">
             <span className="username">Welcome, {user.username}!</span>
-            <Link to={`/livepoll/${poll.poll_id}`}>View Live Poll</Link>
+            {/* <Link to={`/livepoll/${poll.poll_id}`}>View Live Poll</Link> */}
 
             <Link to="/CreatePollForm" className="nav-link">
               Create A Poll
@@ -24,11 +24,10 @@ const NavBar = ({ user, onLogout }) => {
             <button onClick={onLogout} className="logout-btn">
               Logout
             </button>
-        
           </div>
         ) : (
           <div className="auth-links">
-            <Link to={`/livepoll/${poll.poll_id}`}>View Live Poll</Link>
+            {/* <Link to={`/livepoll/${poll.poll_id}`}>View Live Poll</Link> */}
 
             <Link to="/login" className="nav-link">
               Login
