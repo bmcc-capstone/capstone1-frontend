@@ -11,6 +11,9 @@ const CreatePollForm = ({ user }) => {
   const [message, setMessage] = useState("");
   const [expirationDate, setExpirationDate] = useState("");
 
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [showResetConfirm, setShowResetConfirm] = useState(false);
+
   const handleOptionChange = (index, value) => {
     const updatedOptions = [...options];
     updatedOptions[index] = value;
@@ -28,14 +31,18 @@ const CreatePollForm = ({ user }) => {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleOpenConfirm = (e) => {
     e.preventDefault();
+    setShowConfirm(true);
+  };
+
+  const handleSubmit = async () => {
+    setShowConfirm(false);
 
     try {
       const payload = {
         title,
         description,
-
         public: publicPoll,
         expires_date: expirationDate,
         options: options.filter((opt) => opt.trim() !== ""),
@@ -49,17 +56,11 @@ const CreatePollForm = ({ user }) => {
       const response = await axios.post(
         `${API_URL}/api/polls/createpoll/${user.user_id}`,
         payload,
-        {
-          withCredentials: true,
-        }
+        { withCredentials: true }
       );
 
       setMessage("Vote Poll Created Successfully ✅");
-      setTitle("");
-      setDescription("");
-      setOptions(["", ""]);
-      setPublicPoll(false);
-      setExpirationDate("");
+      handleResetConfirmed();
       console.log(response.data);
     } catch (err) {
       console.error(err);
@@ -67,13 +68,23 @@ const CreatePollForm = ({ user }) => {
     }
   };
 
+  const handleResetConfirmed = () => {
+    setShowResetConfirm(false);
+    setTitle("");
+    setDescription("");
+    setOptions(["", ""]);
+    setPublicPoll(false);
+    setExpirationDate("");
+    setMessage("");
+    setShowConfirm(false);
+  };
+
   return (
     <div className="create-vote-poll-container">
       <h2>Create a Vote Poll</h2>
-
       {message && <p className="message">{message}</p>}
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleOpenConfirm}>
         <label>Poll Title:</label>
         <input
           type="text"
@@ -131,7 +142,38 @@ const CreatePollForm = ({ user }) => {
         </div>
 
         <button type="submit">Create Poll</button>
+        <button type="button" onClick={() => setShowResetConfirm(true)}>
+          Reset Form
+        </button>
       </form>
+
+      {/* Confirmation Modal — Submit */}
+      {showConfirm && (
+        <div className="poll-confirm-modal">
+          <div className="modal-content">
+            <h3>🎉 Ready to submit?</h3>
+            <p>Make sure everything looks good — this poll will go live!</p>
+            <div className="modal-actions">
+              <button onClick={handleSubmit}>✅ Confirm</button>
+              <button onClick={() => setShowConfirm(false)}>❌ Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Confirmation Modal — Reset */}
+      {showResetConfirm && (
+        <div className="poll-confirm-modal">
+          <div className="modal-content">
+            <h3>🧹 Clear everything?</h3>
+            <p>This will remove all form data and start fresh. Proceed?</p>
+            <div className="modal-actions">
+              <button onClick={handleResetConfirmed}>✅ Reset</button>
+              <button onClick={() => setShowResetConfirm(false)}>❌ Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
