@@ -34,8 +34,6 @@ const App = () => {
     }
   };
 
-  console.log(user?.user_id);
-
   // Check authentication status on app load
   useEffect(() => {
     checkAuth();
@@ -63,17 +61,17 @@ const App = () => {
       <NavBar user={user} onLogout={handleLogout} />
       <div className="app">
         <Routes>
-          <Route path="/CreatePollForm" element={<CreatePollForm />} />
-          <Route path="/livepoll/:pollId" element={<LivePolls />} />
-          <Route path="/My Polls" element={<MyPolls />} />
-
+        <Route path="/CreatePollForm" element={<CreatePollForm />} />
+        <Route path="/livepoll/:pollId" element={<LivePolls />} />
+        <Route path="/My Polls" element={<MyPolls />} />
           <Route path="/login" element={<Login setUser={setUser} />} />
           <Route path="/signup" element={<Signup setUser={setUser} />} />
           <Route exact path="/" element={<Home />} />
+          <Route path="*" element={<NotFound/>} />
+          <Route path="/MyPolls" element={<MyPolls/>}/>
           <Route path="*" element={<NotFound />} />
-          <Route path="/MyPolls" element={<MyPolls />} />
-          <Route path="*" element={<NotFound />} />
-          <Route path="/PollForm" element={<PollForm user={user} />} />
+          {/* <Route path="/PollForm/:poll_id" element={<PollForm user={user} />} /> */}
+          <Route path="/poll/:slug" element={PollForm} />
         </Routes>
       </div>
     </div>
