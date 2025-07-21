@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { createRoot } from "react-dom/client";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import "./AppStyles.css";
 import NavBar from "./components/NavBar";
@@ -63,8 +64,8 @@ const App = () => {
       <NavBar user={user} onLogout={handleLogout} />
       <div className="app">
         <Routes>
-          <Route path="/CreatePollForm" element={<CreatePollForm />} />
-          <Route path="/livepoll/:pollId" element={<LivePolls />} />
+        <Route path="/CreatePollForm" element={<CreatePollForm user={user} />} />
+        <Route path="/livepoll/:pollId" element={<LivePolls />} />
           <Route path="/My Polls" element={<MyPolls />} />
 
           <Route path="/login" element={<Login setUser={setUser} />} />
