@@ -5,7 +5,7 @@ import { API_URL } from "../shared";
 
 const PollForm = (user) => {
   // Get poll_id from URL params (React Router)
-  //   const { poll_id } = useParams();
+  const { poll_id } = useParams();
 
   // All poll options fetched from backend
   const [options, setOptions] = useState([]);
@@ -27,7 +27,7 @@ const PollForm = (user) => {
     };
 
     fetchOptions();
-  }, [user?.user_id]);
+  }, [poll_id, user?.user_id]);
 
   // Handle option click when an opiton is clicked or unclicked
   const handleOptionClick = (option) => {
