@@ -1,17 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { API_URL } from "../shared";
 import "./CreatePollForm.css";
 import { useNavigate } from "react-router-dom";
 
-const CreatePollForm = ({ user }) => {
-  const nav = useNavigate();
+const CreatePollForm = ({}) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [options, setOptions] = useState(["", ""]);
+  const [options, setOptions] = useState([]);
   const [publicPoll, setPublicPoll] = useState(false);
   const [message, setMessage] = useState("");
   const [expirationDate, setExpirationDate] = useState("");
+  const nav = useNavigate();
 
   const handleSave = async () => {
     const payload = {
@@ -47,6 +47,8 @@ const CreatePollForm = ({ user }) => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
 
+  const [user_id, setUserId] = useState("");
+
   const handleOptionChange = (index, value) => {
     const updatedOptions = [...options];
     updatedOptions[index] = value;
@@ -70,6 +72,7 @@ const CreatePollForm = ({ user }) => {
   };
 
   const handleSubmit = async () => {
+    console.log(options);
     setShowConfirm(false);
 
     try {
@@ -81,13 +84,13 @@ const CreatePollForm = ({ user }) => {
         status: "published",
       };
 
-      if (payload.options.length < 2) {
+      if (options.length < 2) {
         setMessage("Please provide at least 2 options ❗");
         return;
       }
       try {
         const response = await axios.post(
-          `${API_URL}/api/polls/${user.user_id}`,
+          `${API_URL}/api/polls/${user_id}`,
           payload,
           {
             withCredentials: true,
@@ -131,6 +134,28 @@ const CreatePollForm = ({ user }) => {
     setMessage("");
     setShowConfirm(false);
   };
+
+  useEffect(() => {
+    const fetchUserPolls = async () => {
+      try {
+        const userData = await axios.get(`${API_URL}/auth/me`, {
+          withCredentials: true,
+        });
+        const username = userData.data.user?.username;
+        if (!username) throw new Error("No username found");
+
+        const findId = await axios.get(`${API_URL}/api/userId/${username}`, {
+          withCredentials: true,
+        });
+        const userId = findId.data.user_id;
+        console.log("User ID:", userId);
+        setUserId(userId);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchUserPolls();
+  }, []);
 
   return (
     <div className="create-vote-poll-container">
