@@ -68,16 +68,16 @@ const App = () => {
             path="/CreatePollForm"
             element={<CreatePollForm user={user} />}
           />
-          <Route path="/livepoll/:pollId" element={<LivePolls />} />
+          <Route path="/livepoll/" element={<LivePolls />} />
           <Route path="/My Polls" element={<MyPolls draft={draft} />} />
 
           <Route path="/login" element={<Login setUser={setUser} />} />
           <Route path="/signup" element={<Signup setUser={setUser} />} />
           <Route exact path="/" element={<Home />} />
           <Route path="*" element={<NotFound />} />
-          <Route path="/MyPolls" element={<MyPolls />} />
+          <Route path="/MyPolls" element={<MyPolls user={user} />} />
           <Route path="*" element={<NotFound />} />
-          <Route path="/PollForm" element={<PollForm user={user} />} />
+          <Route path="/PollForm/:poll_id" element={<PollForm user={user} />} />
         </Routes>
       </div>
     </div>

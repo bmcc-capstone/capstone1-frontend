@@ -22,14 +22,14 @@ const CreatePollForm = ({ user }) => {
       status: "draft",
     };
     try {
-      const response = await axios.post(`${API_URL}/polls/`, payload, {
+      const response = await axios.post(`${API_URL}/api/polls/`, payload, {
         withCredentials: true,
       });
       const poll_id = response.data.poll_id;
 
       options.map(async (option) => {
         await axios.post(
-          `${API_URL}/poll-options/`,
+          `${API_URL}/api/poll-options/`,
           {
             option_text: option,
             poll_id: poll_id,
@@ -43,6 +43,9 @@ const CreatePollForm = ({ user }) => {
     }
     nav("/MyPolls");
   };
+
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [showResetConfirm, setShowResetConfirm] = useState(false);
 
   const handleOptionChange = (index, value) => {
     const updatedOptions = [...options];
@@ -61,8 +64,13 @@ const CreatePollForm = ({ user }) => {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleOpenConfirm = (e) => {
     e.preventDefault();
+    setShowConfirm(true);
+  };
+
+  const handleSubmit = async () => {
+    setShowConfirm(false);
 
     try {
       const payload = {
@@ -90,7 +98,7 @@ const CreatePollForm = ({ user }) => {
 
         options.map(async (option) => {
           await axios.post(
-            `${API_URL}/poll-options/`,
+            `${API_URL}/api/poll-options/`,
             {
               option_text: option,
               poll_id: poll_id,
@@ -105,12 +113,7 @@ const CreatePollForm = ({ user }) => {
       nav("/MyPolls");
 
       setMessage("Vote Poll Created Successfully ✅");
-      setTitle("");
-      setDescription("");
-      setOptions(["", ""]);
-      setPublicPoll(false);
-      setExpirationDate("");
-      console.log(response.data);
+      handleResetConfirmed();
     } catch (err) {
       console.error(err);
       setMessage(err.response?.data?.error || "Failed to create vote poll ❌");
@@ -118,13 +121,23 @@ const CreatePollForm = ({ user }) => {
     nav("/MyPolls");
   };
 
+  const handleResetConfirmed = () => {
+    setShowResetConfirm(false);
+    setTitle("");
+    setDescription("");
+    setOptions(["", ""]);
+    setPublicPoll(false);
+    setExpirationDate("");
+    setMessage("");
+    setShowConfirm(false);
+  };
+
   return (
     <div className="create-vote-poll-container">
       <h2>Create a Vote Poll</h2>
-
       {message && <p className="message">{message}</p>}
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleOpenConfirm}>
         <label>Poll Title:</label>
         <input
           type="text"
@@ -184,7 +197,42 @@ const CreatePollForm = ({ user }) => {
           Save
         </button>
         <button type="submit">Publish Poll</button>
+
+        <button type="submit">Create Poll</button>
+        <button type="button" onClick={() => setShowResetConfirm(true)}>
+          Reset Form
+        </button>
       </form>
+
+      {/* Confirmation Modal — Submit */}
+      {showConfirm && (
+        <div className="poll-confirm-modal">
+          <div className="modal-content">
+            <h3>🎉 Ready to submit?</h3>
+            <p>Make sure everything looks good — this poll will go live!</p>
+            <div className="modal-actions">
+              <button onClick={handleSubmit}>✅ Confirm</button>
+              <button onClick={() => setShowConfirm(false)}>❌ Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Confirmation Modal — Reset */}
+      {showResetConfirm && (
+        <div className="poll-confirm-modal">
+          <div className="modal-content">
+            <h3>🧹 Clear everything?</h3>
+            <p>This will remove all form data and start fresh. Proceed?</p>
+            <div className="modal-actions">
+              <button onClick={handleResetConfirmed}>✅ Reset</button>
+              <button onClick={() => setShowResetConfirm(false)}>
+                ❌ Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
