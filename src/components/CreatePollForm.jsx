@@ -2,21 +2,52 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { API_URL } from "../shared";
 import "./CreatePollForm.css";
+import { useNavigate } from "react-router-dom";
 
-const CreatePollForm = ({  }) => {
-
+const CreatePollForm = ({}) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [options, setOptions] = useState([]);
   const [publicPoll, setPublicPoll] = useState(false);
   const [message, setMessage] = useState("");
   const [expirationDate, setExpirationDate] = useState("");
+  const nav = useNavigate();
+
+  const handleSave = async () => {
+    const payload = {
+      title,
+      description,
+      publicPoll,
+      expirationDate,
+      status: "draft",
+    };
+    try {
+      const response = await axios.post(`${API_URL}/api/polls/`, payload, {
+        withCredentials: true,
+      });
+      const poll_id = response.data.poll_id;
+
+      options.map(async (option) => {
+        await axios.post(
+          `${API_URL}/api/poll-options/`,
+          {
+            option_text: option,
+            poll_id: poll_id,
+          },
+
+          { withCredentials: true }
+        );
+      });
+    } catch (error) {
+      console.error("Failed to save as draft:", error);
+    }
+    nav("/MyPolls");
+  };
 
   const [showConfirm, setShowConfirm] = useState(false);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
 
   const [user_id, setUserId] = useState("");
-  
 
   const handleOptionChange = (index, value) => {
     const updatedOptions = [...options];
@@ -50,27 +81,47 @@ const CreatePollForm = ({  }) => {
         description,
         public: publicPoll,
         expires_date: expirationDate,
-    
+        status: "published",
       };
 
       if (options.length < 2) {
         setMessage("Please provide at least 2 options ❗");
         return;
       }
+      try {
+        const response = await axios.post(
+          `${API_URL}/api/polls/${user_id}`,
+          payload,
+          {
+            withCredentials: true,
+          }
+        );
 
-      const response = await axios.post(
-        `${API_URL}/api/polls/${user_id}`,
-        payload,
-        { withCredentials: true }
-      );
+        const poll_id = response.data.poll_id;
+
+        options.map(async (option) => {
+          await axios.post(
+            `${API_URL}/api/poll-options/`,
+            {
+              option_text: option,
+              poll_id: poll_id,
+            },
+
+            { withCredentials: true }
+          );
+        });
+      } catch (error) {
+        console.error("Failed to Publish Poll:", error);
+      }
+      nav("/MyPolls");
 
       setMessage("Vote Poll Created Successfully ✅");
       handleResetConfirmed();
-      console.log(response.data);
     } catch (err) {
       console.error(err);
       setMessage(err.response?.data?.error || "Failed to create vote poll ❌");
     }
+    nav("/MyPolls");
   };
 
   const handleResetConfirmed = () => {
@@ -105,7 +156,6 @@ const CreatePollForm = ({  }) => {
     };
     fetchUserPolls();
   }, []);
-
 
   return (
     <div className="create-vote-poll-container">
@@ -168,6 +218,10 @@ const CreatePollForm = ({  }) => {
           />
           <label>Allow guests (unauthorized users) to vote</label>
         </div>
+        <button type="button" onClick={handleSave}>
+          Save
+        </button>
+        <button type="submit">Publish Poll</button>
 
         <button type="submit">Create Poll</button>
         <button type="button" onClick={() => setShowResetConfirm(true)}>
