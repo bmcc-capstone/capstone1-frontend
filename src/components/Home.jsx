@@ -35,7 +35,7 @@ const HomePage = () => {
        
       
       <div className="cta-container">
-        <Link to="/signup" className="cta-button">Start Polling Now!</Link>
+        <Link to=div></div>" className="cta-button">Start Polling Now!</Link>
       </div>
     </div>
     
