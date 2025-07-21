@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { API_URL } from "../shared";
 import "./CreatePollForm.css";
 
-const CreatePollForm = () => {
+const CreatePollForm = ({ user }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [options, setOptions] = useState(["", ""]);
@@ -18,7 +19,7 @@ const CreatePollForm = () => {
 
   const addOption = () => {
     setOptions([...options, ""]);
-  };  
+  };
 
   const removeOption = (index) => {
     if (options.length > 2) {
@@ -35,10 +36,9 @@ const CreatePollForm = () => {
         title,
         description,
 
-        public: publicPoll, 
+        public: publicPoll,
         expires_date: expirationDate,
-        options: options.filter((opt) => opt.trim() !== "")
-
+        options: options.filter((opt) => opt.trim() !== ""),
       };
 
       if (payload.options.length < 2) {
@@ -46,9 +46,8 @@ const CreatePollForm = () => {
         return;
       }
 
-
       const response = await axios.post(
-        "http://localhost:8080/api/polls/createpoll/${userId}",
+        `${API_URL}/api/polls/createpoll/${user.user_id}`,
         payload,
         {
           withCredentials: true,
@@ -118,7 +117,8 @@ const CreatePollForm = () => {
         <input
           type="datetime-local"
           value={expirationDate}
-          onChange={(e) => setExpirationDate(e.target.value)} required
+          onChange={(e) => setExpirationDate(e.target.value)}
+          required
         />
 
         <div className="public-poll-checkbox">
