@@ -1,105 +1,94 @@
-// import React, { useEffect, useState } from "react";
-// import { useParams } from "react-router-dom";
-// import axios from "axios";
-// import { API_URL } from "../shared";
-// import "./LivePoll.css";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import { API_URL } from "../shared";
+import "./LivePoll.css";
 
-// const LivePoll = () => {
-//   const { pollId } = useParams();
+const LivePolls = () => {
+  const [polls, setPolls] = useState([]);
+  const [error, setError] = useState("");
+  const [userCounts, setUserCounts] = useState({});
 
-//   const [poll, setPoll] = useState(null);
-//   const [userCount, setUserCount] = useState(0);
-//   const [error, setError] = useState("");
+  // Fetch all live polls (public + not expired)
+  useEffect(() => {
+    const fetchLivePolls = async () => {
+      try {
+        const response = await axios.get(`${API_URL}/api/polls/livepolls`);
+        setPolls(response.data);
+      } catch (err) {
+        console.error(err);
+        setError("Failed to load live polls ❌");
+      }
+    };
 
-//   // Fetch poll data
-//   useEffect(() => {
-//     if (!pollId) {
-//       setError("Poll ID is missing in the URL ❌");
-//       return;
-//     }
+    fetchLivePolls();
+  }, []);
 
-//     const fetchPoll = async () => {
-//       try {
-//         const response = await axios.get(`${API_URL}/api/polls/${pollId}`);
-//         setPoll(response.data);
-//       } catch (err) {
-//         console.error(err);
-//         setError("Failed to load poll ❌");
-//       }
-//     };
+  // Fetch user counts for each poll (optional)
+  useEffect(() => {
+    const fetchUserCounts = async () => {
+      const counts = {};
 
-//     fetchPoll();
-//   }, [pollId]);
+      await Promise.all(
+        polls.map(async (poll) => {
+          try {
+            const res = await axios.get(
+              `${API_URL}/api/polls/${poll.poll_id}/users`
+            );
+            counts[poll.poll_id] = res.data.userCount;
+          } catch (err) {
+            console.error(`Error fetching users for poll ${poll.poll_id}`, err);
+            counts[poll.poll_id] = 0;
+          }
+        })
+      );
 
-//   // Simulated user count
-//   useEffect(() => {
-//     if (!pollId) return;
+      setUserCounts(counts);
+    };
 
-//     const fetchUserCount = async () => {
-//       try {
-//         const res = await axios.get(`${API_URL}/api/polls/${pollId}/users`);
-//         setUserCount(res.data.userCount);
-//       } catch (err) {
-//         console.error("Error fetching user count", err);
-//       }
-//     };
+    if (polls.length > 0) {
+      fetchUserCounts();
+      const interval = setInterval(fetchUserCounts, 3000);
 
-//     fetchUserCount();
-//     const interval = setInterval(fetchUserCount, 3000);
+      return () => clearInterval(interval);
+    }
+  }, [polls]);
 
-//     return () => clearInterval(interval);
-//   }, [pollId]);
+  if (error) {
+    return <div className="livepoll-error">{error}</div>;
+  }
 
-//   if (error) {
-//     return <div className="livepoll-error">{error}</div>;
-//   }
+  if (polls.length === 0) {
+    return <div className="livepoll-loading">No active live polls found.</div>;
+  }
 
-//   if (!poll) {
-//     return <div className="livepoll-loading">Loading Poll...</div>;
-//   }
+  return (
+    <div className="livepoll-container">
+      <h2>Live Public Polls</h2>
 
-//   // Calculate total votes (if vote_count exists)
-//   const totalVotes = poll.pollOptions.reduce(
-//     (sum, option) => sum + (option.vote_count || 0),
-//     0
-//   );
+      {polls.map((poll) => (
+        <div key={poll.poll_id} className="livepoll-card">
+          <h3>{poll.title}</h3>
+          <p>{poll.description}</p>
 
-//   return (
-//     <div className="livepoll-container">
-//       <h2>Live Poll: {poll.title}</h2>
-//       <p>{poll.description}</p>
+          <div className="livepoll-info">
+            <p>
+              <strong>Users viewing:</strong> {userCounts[poll.poll_id] || 0}
+            </p>
+            <p>
+              <strong>Expires:</strong>{" "}
+              {new Date(poll.expires_date).toLocaleString()}
+            </p>
+          </div>
 
-//       <div className="livepoll-info">
-//         <p>
-//           <strong>Users viewing:</strong> {userCount}
-//         </p>
-//         <p>
-//           <strong>Expires:</strong>{" "}
-//           {new Date(poll.expires_date).toLocaleString()}
-//         </p>
-//       </div>
+          {/* Use React Router Link for SPA navigation */}
+          <Link to={`/livepolls/${poll.poll_id}`} className="vote-link">
+            Go to Vote Page
+          </Link>
+        </div>
+      ))}
+    </div>
+  );
+};
 
-//       <ul className="livepoll-options">
-//         {poll.pollOptions.map((option) => {
-//           const votes = option.vote_count || 0;
-//           const percent =
-//             totalVotes > 0 ? ((votes / totalVotes) * 100).toFixed(1) : 0;
-
-//           return (
-//             <li key={option.option_id}>
-//               <div className="option-text">{option.option_text}</div>
-//               <div className="option-bar">
-//                 <div className="fill" style={{ width: `${percent}%` }}></div>
-//               </div>
-//               <div className="option-info">
-//                 {votes} votes ({percent}%)
-//               </div>
-//             </li>
-//           );
-//         })}
-//       </ul>
-//     </div>
-//   );
-// };
-
-// export default LivePoll;
+export default LivePolls;
