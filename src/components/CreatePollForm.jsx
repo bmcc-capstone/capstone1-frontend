@@ -3,6 +3,7 @@ import axios from "axios";
 import { API_URL } from "../shared";
 import "./CreatePollForm.css";
 import { useNavigate } from "react-router-dom";
+import ShareableLinkPage from "./shareableUrl";
 
 const CreatePollForm = ({}) => {
   const [title, setTitle] = useState("");
@@ -96,9 +97,9 @@ const CreatePollForm = ({}) => {
             withCredentials: true,
           }
         );
-
-        const poll_id = response.data.poll_id;
-
+        console.log(response);
+        const poll_id = response.data.poll.poll_id;
+        console.log(poll_id);
         options.map(async (option) => {
           await axios.post(
             `${API_URL}/api/poll-options/`,
@@ -113,7 +114,7 @@ const CreatePollForm = ({}) => {
       } catch (error) {
         console.error("Failed to Publish Poll:", error);
       }
-      nav("/MyPolls");
+      nav("/");
 
       setMessage("Vote Poll Created Successfully ✅");
       handleResetConfirmed();
@@ -223,7 +224,6 @@ const CreatePollForm = ({}) => {
         </button>
         <button type="submit">Publish Poll</button>
 
-        <button type="submit">Create Poll</button>
         <button type="button" onClick={() => setShowResetConfirm(true)}>
           Reset Form
         </button>
