@@ -43,14 +43,26 @@ const GoToVote = ({ user }) => {
         <p>You haven't created any polls yet.</p>
       ) : (
         <ul className="poll-list">
-          {polls.map((poll) => (
-            <li key={poll.poll_id} className="poll-item">
-              <Link to={`/livepolls/${poll.poll_id}`}>
-                <strong>{poll.title}</strong> — Expires on{" "}
-                {new Date(poll.expires_date).toLocaleString()}
-              </Link>
-            </li>
-          ))}
+          {polls.map((poll) => {
+            // Check if the poll is expired
+            const isExpired = new Date(poll.expires_date) < new Date();
+            return (
+              <li key={poll.poll_id} className="poll-item">
+                {isExpired ? (
+                  // If expired, show as gray text and disable link
+                  <span style={{ color: "gray", cursor: "not-allowed" }}>
+                    <strong>{poll.title}</strong> — Expired on{" "}
+                    {new Date(poll.expires_date).toLocaleString()}
+                  </span>
+                ) : (
+                  <Link to={`/livepolls/${poll.poll_id}`}>
+                    <strong>{poll.title}</strong> — Expires on{" "}
+                    {new Date(poll.expires_date).toLocaleString()}
+                  </Link>
+                )}
+              </li>
+            );
+          })}
         </ul>
       )}
     </div>
