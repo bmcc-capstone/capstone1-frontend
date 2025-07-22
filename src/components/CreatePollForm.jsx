@@ -4,13 +4,17 @@ import { API_URL } from "../shared";
 import "./CreatePollForm.css";
 import { useNavigate } from "react-router-dom";
 
-const CreatePollForm = ({}) => {
+const CreatePollForm = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [options, setOptions] = useState([]);
   const [publicPoll, setPublicPoll] = useState(false);
   const [message, setMessage] = useState("");
   const [expirationDate, setExpirationDate] = useState("");
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [showResetConfirm, setShowResetConfirm] = useState(false);
+  const [user_id, setUserId] = useState("");
+
   const nav = useNavigate();
 
   const handleSave = async () => {
@@ -43,11 +47,6 @@ const CreatePollForm = ({}) => {
     }
     nav("/MyPolls");
   };
-
-  const [showConfirm, setShowConfirm] = useState(false);
-  const [showResetConfirm, setShowResetConfirm] = useState(false);
-
-  const [user_id, setUserId] = useState("");
 
   const handleOptionChange = (index, value) => {
     const updatedOptions = [...options];
@@ -222,8 +221,6 @@ const CreatePollForm = ({}) => {
           Save
         </button>
         <button type="submit">Publish Poll</button>
-
-        <button type="submit">Create Poll</button>
         <button type="button" onClick={() => setShowResetConfirm(true)}>
           Reset Form
         </button>
