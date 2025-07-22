@@ -3,7 +3,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { API_URL } from "../shared";
 
-const PollForm = (user) => {
+const PollForm = ({ user }) => {
   // Get poll_id from URL params (React Router)
   const { poll_id } = useParams();
 
