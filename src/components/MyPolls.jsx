@@ -8,18 +8,25 @@ const MyPoll = () => {
   const [polls, setPolls] = useState([]);
   const [error, setError] = useState("");
 
-// fetching user polls using username and user_id 
+  // fetching user polls using username and user_id
   useEffect(() => {
     const fetchUserPolls = async () => {
       try {
-        const userData = await axios.get(`${API_URL}/auth/me`, {withCredentials: true,});
+        const userData = await axios.get(`${API_URL}/auth/me`, {
+          withCredentials: true,
+        });
         const username = userData.data.user?.username;
         if (!username) throw new Error("No username found");
 
-        const findId = await axios.get(`${API_URL}/api/userId/${username}`, {withCredentials: true});
+        const findId = await axios.get(`${API_URL}/api/userId/${username}`, {
+          withCredentials: true,
+        });
         const userId = findId.data.user_id;
 
-        const findPolls = await axios.get(`${API_URL}/api/polls/user/${userId}`, {withCredentials: true});
+        const findPolls = await axios.get(
+          `${API_URL}/api/polls/user/${userId}`,
+          { withCredentials: true }
+        );
         setPolls(findPolls.data);
       } catch (err) {
         console.error(err);
@@ -41,11 +48,12 @@ const MyPoll = () => {
       ) : (
         <div className="poll-list">
           {polls.map((poll) => (
-              <PollCard
-                id={poll.poll_id} 
-                title={poll.title}
-                description={poll.description}
-              />
+            <PollCard
+              key={poll.poll_id}
+              id={poll.poll_id}
+              title={poll.title}
+              description={poll.description}
+            />
           ))}
         </div>
       )}

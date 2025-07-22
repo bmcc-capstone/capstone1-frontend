@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { createRoot } from "react-dom/client";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import "./AppStyles.css";
 import NavBar from "./components/NavBar";
@@ -21,6 +22,7 @@ import PollForm from "./components/PollForm";
 
 const App = () => {
   const [user, setUser] = useState(null);
+  const [draft, setDraft] = useState([]);
   const nav = useNavigate();
   const checkAuth = async () => {
     try {
@@ -63,17 +65,20 @@ const App = () => {
       <NavBar user={user} onLogout={handleLogout} />
       <div className="app">
         <Routes>
-          <Route path="/CreatePollForm" element={<CreatePollForm />} />
-          <Route path="/livepoll/:pollId" element={<LivePolls />} />
-          <Route path="/My Polls" element={<MyPolls />} />
+          <Route
+            path="/CreatePollForm"
+            element={<CreatePollForm user={user} />}
+          />
+          <Route path="/livepoll/" element={<LivePolls />} />
+          <Route path="/My Polls" element={<MyPolls draft={draft} />} />
 
           <Route path="/login" element={<Login setUser={setUser} />} />
           <Route path="/signup" element={<Signup setUser={setUser} />} />
           <Route exact path="/" element={<Home />} />
           <Route path="*" element={<NotFound />} />
-          <Route path="/MyPolls" element={<MyPolls />} />
+          <Route path="/MyPolls" element={<MyPolls user={user} />} />
           <Route path="*" element={<NotFound />} />
-          <Route path="/PollForm" element={<PollForm user={user} />} />
+          <Route path="/PollForm/:poll_id" element={<PollForm user={user} />} />
         </Routes>
       </div>
     </div>
