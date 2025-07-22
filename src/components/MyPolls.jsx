@@ -70,14 +70,16 @@ const MyPoll = () => {
       ) : (
         <div className="poll-list">
           {polls.map((poll) => (
-              <PollCard
-                key={poll.poll_id}
-                id={poll.poll_id} 
-                title={poll.title}
-                description={poll.description}
-                expires_date={poll.expires_date}
-                totalVotes={tallies[poll.poll_id]}
-              />
+
+            <PollCard
+              key={poll.poll_id}
+              id={poll.poll_id}
+              title={poll.title}
+              description={poll.description}
+              expires_date={poll.expires_date}
+              totalVotes={tallies[poll.poll_id]}
+            />
+
           ))}
         </div>
       )}
