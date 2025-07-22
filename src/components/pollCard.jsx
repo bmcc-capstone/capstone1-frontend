@@ -21,8 +21,6 @@ const PollCard = ({ title, description, id, expires_date, totalVotes }) => {
             withCredentials: true,
           }
         );
-        console.log(pollRes);
-        console.log(optionsRes);
         setPoll(pollRes.data);
         setPollOptions(optionsRes.data);
       } catch (err) {

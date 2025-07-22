@@ -23,20 +23,29 @@ const CreatePollForm = () => {
     if (location.state) {
       setTitle(location.state.title || "");
       setDescription(location.state.description || "");
-      setPublicPoll(location.state.publicPoll || false);
+      setPublicPoll(
+        location.state.publicPoll === true ||
+          location.state.publicPoll === "true"
+      );
       setExpirationDate(location.state.expirationDate || "2025-06-12T19:30");
       setOptions(location.state.options || ["", ""]);
     }
   }, [location.state]);
 
   const handleSave = async () => {
+    const parsedDate = new Date(expirationDate);
+    const formattedDate = parsedDate.toISOString().slice(0, 16);
+    console.log(expirationDate);
     const payload = {
       title,
       description,
       public: publicPoll,
-      expires_date: expirationDate,
+      expires_date: formattedDate,
       status: "draft",
     };
+    for (let e in payload) {
+      console.log(e, typeof e);
+    }
     try {
       const response = await axios.post(
         `${API_URL}/api/polls/${user_id}`,
@@ -87,6 +96,7 @@ const CreatePollForm = () => {
   };
 
   const handleSubmit = async () => {
+    console.log(expirationDate);
     console.log(options);
     setShowConfirm(false);
 
