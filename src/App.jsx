@@ -19,6 +19,7 @@ import CreatePollForm from "./components/CreatePollForm";
 import MyPolls from "./components/MyPolls";
 import LivePolls from "./components/LivePolls";
 import PollForm from "./components/PollForm";
+import ShareableLinkPage from "./components/shareableUrl";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -75,8 +76,9 @@ const App = () => {
           <Route exact path="/" element={<Home />} />
           <Route path="*" element={<NotFound />} />
           <Route path="/MyPolls" element={<MyPolls user={user} />} />
-          <Route path="*" element={<NotFound />} />
           <Route path="/PollForm/:poll_id" element={<PollForm user={user} />} />
+          <Route path="/polls/:shareableLink" element={<PollForm />}/>
+          <Route path="/share" element= {<ShareableLinkPage/>}/>
         </Routes>
       </div>
     </div>
