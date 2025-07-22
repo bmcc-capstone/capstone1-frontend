@@ -3,7 +3,7 @@ import axios from "axios";
 import { API_URL } from "../shared";
 import "./CreatePollForm.css";
 import { useNavigate } from "react-router-dom";
-import ShareableLinkPage from "./shareableUrl";
+import ShareableLinkPage from "./shareableLink";
 
 const CreatePollForm = ({}) => {
   const [title, setTitle] = useState("");
@@ -27,7 +27,6 @@ const CreatePollForm = ({}) => {
         withCredentials: true,
       });
       const poll_id = response.data.poll_id;
-
       options.map(async (option) => {
         await axios.post(
           `${API_URL}/api/poll-options/`,
@@ -42,6 +41,7 @@ const CreatePollForm = ({}) => {
     } catch (error) {
       console.error("Failed to save as draft:", error);
     }
+
     nav("/MyPolls");
   };
 
@@ -98,8 +98,10 @@ const CreatePollForm = ({}) => {
           }
         );
         console.log(response);
+
         const poll_id = response.data.poll.poll_id;
-        console.log(poll_id);
+        const shareableLink = response.data.shareableLink;
+
         options.map(async (option) => {
           await axios.post(
             `${API_URL}/api/poll-options/`,
@@ -111,18 +113,20 @@ const CreatePollForm = ({}) => {
             { withCredentials: true }
           );
         });
+
       } catch (error) {
         console.error("Failed to Publish Poll:", error);
       }
-      nav("/");
 
       setMessage("Vote Poll Created Successfully ✅");
       handleResetConfirmed();
+
+      nav("/share")
     } catch (err) {
       console.error(err);
       setMessage(err.response?.data?.error || "Failed to create vote poll ❌");
     }
-    nav("/MyPolls");
+    nav("/share");
   };
 
   const handleResetConfirmed = () => {
