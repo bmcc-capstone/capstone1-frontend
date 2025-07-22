@@ -22,7 +22,6 @@ import PollForm from "./components/PollForm";
 
 const App = () => {
   const [user, setUser] = useState(null);
-  const [draft, setDraft] = useState([]);
   const nav = useNavigate();
   const checkAuth = async () => {
     try {
@@ -70,7 +69,7 @@ const App = () => {
             element={<CreatePollForm user={user} />}
           />
           <Route path="/livepoll/" element={<LivePolls />} />
-          <Route path="/My Polls" element={<MyPolls draft={draft} />} />
+          <Route path="/My Polls" element={<MyPolls />} />
 
           <Route path="/login" element={<Login setUser={setUser} />} />
           <Route path="/signup" element={<Signup setUser={setUser} />} />

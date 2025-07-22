@@ -26,9 +26,13 @@ const CreatePollForm = () => {
       status: "draft",
     };
     try {
-      const response = await axios.post(`${API_URL}/api/polls/`, payload, {
-        withCredentials: true,
-      });
+      const response = await axios.post(
+        `${API_URL}/api/polls/${user_id}`,
+        payload,
+        {
+          withCredentials: true,
+        }
+      );
       const poll_id = response.data.poll_id;
 
       options.map(async (option) => {
