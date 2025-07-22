@@ -24,6 +24,7 @@ import GoToVote from "./components/GoToVote";
 
 const App = () => {
   const [user, setUser] = useState(null);
+  const [draft, setDraft] = useState([]);
   const nav = useNavigate();
   const checkAuth = async () => {
     try {
@@ -66,19 +67,21 @@ const App = () => {
       <NavBar user={user} onLogout={handleLogout} />
       <div className="app">
         <Routes>
+
         <Route path="/CreatePollForm" element={<CreatePollForm user={user} />} />
         <Route path="/GoToVote" element={<GoToVote user={user} />} />
         <Route path="/LivePolls/:pollId" element={<LivePoll />} />
         <Route path="/LivePolls" element={<LivePolls />} />
         <Route path="/My Polls" element={<MyPolls />} />
 
+
           <Route path="/login" element={<Login setUser={setUser} />} />
           <Route path="/signup" element={<Signup setUser={setUser} />} />
           <Route exact path="/" element={<Home />} />
           <Route path="*" element={<NotFound />} />
-          <Route path="/MyPolls" element={<MyPolls />} />
+          <Route path="/MyPolls" element={<MyPolls user={user} />} />
           <Route path="*" element={<NotFound />} />
-          <Route path="/PollForm" element={<PollForm user={user} />} />
+          <Route path="/PollForm/:poll_id" element={<PollForm user={user} />} />
         </Routes>
       </div>
     </div>
