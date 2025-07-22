@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { createRoot } from "react-dom/client";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import "./AppStyles.css";
 import NavBar from "./components/NavBar";
@@ -70,7 +69,6 @@ const App = () => {
           />
           <Route path="/livepoll/" element={<LivePolls />} />
           <Route path="/My Polls" element={<MyPolls />} />
-
           <Route path="/login" element={<Login setUser={setUser} />} />
           <Route path="/signup" element={<Signup setUser={setUser} />} />
           <Route exact path="/" element={<Home />} />

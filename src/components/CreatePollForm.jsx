@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { API_URL } from "../shared";
 import "./CreatePollForm.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const CreatePollForm = () => {
   const [title, setTitle] = useState("");
@@ -17,12 +17,24 @@ const CreatePollForm = () => {
 
   const nav = useNavigate();
 
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state) {
+      setTitle(location.state.title || "");
+      setDescription(location.state.description || "");
+      setPublicPoll(location.state.publicPoll || false);
+      setExpirationDate(location.state.expirationDate || "2025-06-12T19:30");
+      setOptions(location.state.options || ["", ""]);
+    }
+  }, [location.state]);
+
   const handleSave = async () => {
     const payload = {
       title,
       description,
-      publicPoll,
-      expirationDate,
+      public: publicPoll,
+      expires_date: expirationDate,
       status: "draft",
     };
     try {
