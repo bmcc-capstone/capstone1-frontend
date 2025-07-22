@@ -6,6 +6,7 @@ import { API_URL } from "../shared";
 const PollForm = (user) => {
   // Get poll_id from URL params (React Router)
   const { poll_id } = useParams();
+  console.log("POLLID", poll_id);
 
   // All poll options fetched from backend
   const [options, setOptions] = useState([]);
@@ -17,9 +18,12 @@ const PollForm = (user) => {
   useEffect(() => {
     const fetchOptions = async () => {
       try {
-        const response = await axios.get(`${API_URL}/poll-options/${poll_id}`, {
-          withCredentials: true,
-        });
+        const response = await axios.get(
+          `${API_URL}/api/poll-options/${poll_id}`,
+          {
+            withCredentials: true,
+          }
+        );
         setOptions(response.data);
       } catch (error) {
         console.error("Failed to fetch poll options:", error);
@@ -27,7 +31,8 @@ const PollForm = (user) => {
     };
 
     fetchOptions();
-  }, [poll_id, user?.user_id]);
+  }, []);
+  //   }, [poll_id, user?.user_id]);
 
   // Handle option click when an opiton is clicked or unclicked
   const handleOptionClick = (option) => {
@@ -61,10 +66,10 @@ const PollForm = (user) => {
     try {
       // Send PATCH request with ranked options to update ranks in backend
       const response = await axios.patch(
-        `${API_URL}/ballotItems/update-rankings`,
+        `${API_URL}/api/ballotItems/update-rankings`,
         {
           updates: rankedOptions,
-          //   poll_id,
+          poll_id,
         },
         { withCredentials: true }
       );
@@ -72,7 +77,7 @@ const PollForm = (user) => {
       console.error("Failed to update ranks:", error);
     }
   };
-  return <h1></h1>;
+  return <h1>hello</h1>;
 };
 
 export default PollForm;
