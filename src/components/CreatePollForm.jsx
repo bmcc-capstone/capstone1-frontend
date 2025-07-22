@@ -120,8 +120,7 @@ const CreatePollForm = ({}) => {
 
       setMessage("Vote Poll Created Successfully ✅");
       handleResetConfirmed();
-
-      nav("/share")
+      
     } catch (err) {
       console.error(err);
       setMessage(err.response?.data?.error || "Failed to create vote poll ❌");
