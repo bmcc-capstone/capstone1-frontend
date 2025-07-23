@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { createRoot } from "react-dom/client";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import "./AppStyles.css";
 import NavBar from "./components/NavBar";
@@ -18,12 +17,13 @@ import { API_URL } from "./shared";
 import CreatePollForm from "./components/CreatePollForm";
 import MyPolls from "./components/MyPolls";
 import LivePolls from "./components/LivePolls";
+import LivePoll from "./components/LivePoll";
 import PollForm from "./components/PollForm";
+import GoToVote from "./components/GoToVote";
 import ShareableLinkPage from "./components/shareableLink";
 
 const App = () => {
   const [user, setUser] = useState(null);
-  const [draft, setDraft] = useState([]);
   const nav = useNavigate();
   const checkAuth = async () => {
     try {
@@ -68,8 +68,11 @@ const App = () => {
             path="/CreatePollForm"
             element={<CreatePollForm user={user} />}
           />
-          <Route path="/livepoll/" element={<LivePolls />} />
-          <Route path="/My Polls" element={<MyPolls draft={draft} />} />
+          <Route path="/GoToVote" element={<GoToVote user={user} />} />
+          <Route path="/LivePolls/:pollId" element={<LivePoll />} />
+          <Route path="/LivePolls" element={<LivePolls />} />
+          <Route path="/My Polls" element={<MyPolls />} />
+
           <Route path="/login" element={<Login setUser={setUser} />} />
           <Route path="/signup" element={<Signup setUser={setUser} />} />
           <Route exact path="/" element={<Home />} />
