@@ -182,7 +182,7 @@ const CreatePollForm = () => {
           }
         );
 
-        const existingOptions = optionsRes.data; // assuming it's an array
+        const existingOptions = optionsRes.data;
 
         await Promise.all(
           existingOptions.map((option, index) => {
