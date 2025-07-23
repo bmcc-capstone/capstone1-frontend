@@ -7,7 +7,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 const CreatePollForm = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [options, setOptions] = useState([]);
+  const [options, setOptions] = useState(["", ""]);
   const [publicPoll, setPublicPoll] = useState(false);
   const [message, setMessage] = useState("");
   const [expirationDate, setExpirationDate] = useState("");
@@ -97,6 +97,7 @@ const CreatePollForm = () => {
           {
             withCredentials: true,
           }
+
         );
 
         const optionsRes = await axios.get(
@@ -219,6 +220,7 @@ const CreatePollForm = () => {
             );
           })
         );
+
       }
 
       setMessage("Vote Poll Created Successfully ✅");
@@ -305,7 +307,7 @@ const CreatePollForm = () => {
             </div>
           ))}
           <button type="button" onClick={addOption}>
-            ➕ Add Option
+            + Add Option
           </button>
         </div>
 

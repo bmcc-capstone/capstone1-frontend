@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "./pollCard.css";
+
 import { Link, useNavigate } from "react-router-dom";
 import { API_URL } from "../shared";
 import axios from "axios";
+
 
 const PollCard = ({ title, description, id, expires_date, totalVotes }) => {
   const [poll, setPoll] = useState(null);
