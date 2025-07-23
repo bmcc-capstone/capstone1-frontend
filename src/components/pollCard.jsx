@@ -35,6 +35,7 @@ const PollCard = ({ title, description, id, expires_date, totalVotes }) => {
   const handleEdit = () => {
     navigate("/CreatePollForm", {
       state: {
+        poll_id: poll.poll_id,
         title: poll.title,
         description: poll.description,
         publicPoll: poll.public,
