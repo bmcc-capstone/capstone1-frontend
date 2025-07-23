@@ -14,7 +14,7 @@ const CreatePollForm = () => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [user_id, setUserId] = useState("");
-  const [pollId, setPollId] = useState(null);
+  const [pollId, setPollId] = useState();
   const nav = useNavigate();
   const location = useLocation();
 
@@ -24,6 +24,7 @@ const CreatePollForm = () => {
         const userData = await axios.get(`${API_URL}/auth/me`, {
           withCredentials: true,
         });
+
         const username = userData.data.user?.username;
         if (!username) throw new Error("No username found");
 
@@ -128,7 +129,7 @@ const CreatePollForm = () => {
             withCredentials: true,
           }
         );
-        const newPollId = response.data.poll_id;
+        const newPollId = response.data.poll.poll_id;
         setPollId(newPollId);
         await Promise.all(
           options.map(async (option) => {
@@ -147,11 +148,13 @@ const CreatePollForm = () => {
     } catch (error) {
       console.error("Failed to save as draft:", error);
     }
-    nav("/MyPolls");
+    // nav("/MyPolls");
   };
 
   const handleSubmit = async () => {
     setShowConfirm(false);
+
+    let newPollId = pollId;
 
     try {
       const payload = {
@@ -204,8 +207,12 @@ const CreatePollForm = () => {
             withCredentials: true,
           }
         );
-        const newPollId = response.data.poll_id;
+
+        console.log(response);
+        newPollId = response.data.poll.poll_id;
+        console.log(newPollId)
         setPollId(newPollId);
+
         await Promise.all(
           options.map(async (option) => {
             await axios.post(
@@ -223,12 +230,14 @@ const CreatePollForm = () => {
 
       setMessage("Vote Poll Created Successfully ✅");
       handleResetConfirmed();
-      nav("/MyPolls");
+
+      nav(`/share/${newPollId}`);
     } catch (err) {
       console.error(err);
       setMessage(err.response?.data?.error || "Failed to create vote poll ❌");
     }
-    nav(`/share/${id}`);
+    console.log(pollId);
+    nav(`/share/${newPollId}`);
   };
 
   const handleOptionChange = (index, value) => {

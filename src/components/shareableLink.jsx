@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import "./shareableLink.css"
 import { useParams } from "react-router-dom";
 import { API_URL } from "../shared";
+import axios from "axios";
 
 const ShareableLinkPage = ({}) => {
-  const id = useParams(); 
+  const id = useParams().id; 
   const [link, setLink] = useState("");
   const [error, setError] = useState([]);
 
@@ -16,6 +17,7 @@ const ShareableLinkPage = ({}) => {
       });
 
       const link = pollData.data.shareableLink;
+      console.log(link);
       setLink(link);
     } catch (err) {
       console.error(err);
@@ -38,9 +40,9 @@ const ShareableLinkPage = ({}) => {
         <h3>✅ Your Poll Has Been Created!</h3>
 
         <div className="linkInformation">
-          <p>Share this link to collect votes:</p>
+          <p>🔗Share this link to collect votes:</p>
 
-          <textarea value={`🔗${link}`} readOnly/>
+          <textarea value={`${link}`} readOnly/>
           <button onClick={copyToClipBoard}>Copy to Clipboard</button>
         </div>
       </div>    
