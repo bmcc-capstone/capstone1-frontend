@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 const CreatePollForm = ({}) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [options, setOptions] = useState(["", ""]);
+  const [options, setOptions] = useState([]);
   const [publicPoll, setPublicPoll] = useState(false);
   const [message, setMessage] = useState("");
   const [expirationDate, setExpirationDate] = useState("");
@@ -34,6 +34,7 @@ const CreatePollForm = ({}) => {
             option_text: option,
             poll_id: poll_id,
           },
+
           { withCredentials: true }
         );
       });
@@ -105,6 +106,7 @@ const CreatePollForm = ({}) => {
               option_text: option,
               poll_id: poll_id,
             },
+
             { withCredentials: true }
           );
         });
@@ -196,7 +198,7 @@ const CreatePollForm = ({}) => {
             </div>
           ))}
           <button type="button" onClick={addOption}>
-            + Add Option
+            ➕ Add Option
           </button>
         </div>
 
@@ -220,6 +222,7 @@ const CreatePollForm = ({}) => {
           Save
         </button>
         <button type="submit">Publish Poll</button>
+
         <button type="submit">Create Poll</button>
         <button type="button" onClick={() => setShowResetConfirm(true)}>
           Reset Form
