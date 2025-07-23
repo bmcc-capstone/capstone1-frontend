@@ -35,6 +35,7 @@ const CreatePollForm = ({}) => {
             poll_id: poll_id,
           },
 
+
           { withCredentials: true }
         );
       });
