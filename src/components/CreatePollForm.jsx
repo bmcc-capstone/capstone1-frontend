@@ -12,6 +12,7 @@ const CreatePollForm = ({}) => {
   const [publicPoll, setPublicPoll] = useState(false);
   const [message, setMessage] = useState("");
   const [expirationDate, setExpirationDate] = useState("");
+  const [id, setId] = useState("");
   const nav = useNavigate();
 
   const handleSave = async () => {
@@ -100,7 +101,7 @@ const CreatePollForm = ({}) => {
         console.log(response);
 
         const poll_id = response.data.poll.poll_id;
-        const shareableLink = response.data.shareableLink;
+        setId(poll_id);
 
         options.map(async (option) => {
           await axios.post(
@@ -120,12 +121,12 @@ const CreatePollForm = ({}) => {
 
       setMessage("Vote Poll Created Successfully ✅");
       handleResetConfirmed();
-      
+
     } catch (err) {
       console.error(err);
       setMessage(err.response?.data?.error || "Failed to create vote poll ❌");
     }
-    nav("/share");
+    nav(`/share/${id}`);
   };
 
   const handleResetConfirmed = () => {

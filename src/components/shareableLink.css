@@ -24,3 +24,22 @@
 .linkInformation p {
     margin-bottom: 5%;
 }
+
+.linkInformation button {
+    display: block;
+    width: 100%;
+    margin-top: 0.8rem;
+    background-color: rgb(34, 171, 217);
+    color: #fff;
+    border: none;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.linkInformation button:hover {
+    background-color: rgb(39, 184, 232);
+}
