@@ -14,151 +14,9 @@ const CreatePollForm = () => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [user_id, setUserId] = useState("");
-
+  const [pollId, setPollId] = useState(null);
   const nav = useNavigate();
-
   const location = useLocation();
-
-  useEffect(() => {
-    if (location.state) {
-      setTitle(location.state.title || "");
-      setDescription(location.state.description || "");
-      setPublicPoll(
-        location.state.publicPoll === true ||
-          location.state.publicPoll === "true"
-      );
-      setExpirationDate(location.state.expirationDate || "2025-06-12T19:30");
-      setOptions(location.state.options || ["", ""]);
-    }
-  }, [location.state]);
-
-  const handleSave = async () => {
-    const parsedDate = new Date(expirationDate);
-    const formattedDate = parsedDate.toISOString().slice(0, 16);
-    console.log(expirationDate);
-    const payload = {
-      title,
-      description,
-      public: publicPoll,
-      expires_date: formattedDate,
-      status: "draft",
-    };
-    for (let e in payload) {
-      console.log(e, typeof e);
-    }
-    try {
-      const response = await axios.post(
-        `${API_URL}/api/polls/${user_id}`,
-        payload,
-        {
-          withCredentials: true,
-        }
-      );
-      const poll_id = response.data.poll_id;
-
-      options.map(async (option) => {
-        await axios.post(
-          `${API_URL}/api/poll-options/`,
-          {
-            option_text: option,
-            poll_id: poll_id,
-          },
-
-          { withCredentials: true }
-        );
-      });
-    } catch (error) {
-      console.error("Failed to save as draft:", error);
-    }
-    nav("/MyPolls");
-  };
-
-  const handleOptionChange = (index, value) => {
-    const updatedOptions = [...options];
-    updatedOptions[index] = value;
-    setOptions(updatedOptions);
-  };
-
-  const addOption = () => {
-    setOptions([...options, ""]);
-  };
-
-  const removeOption = (index) => {
-    if (options.length > 2) {
-      const updatedOptions = options.filter((_, i) => i !== index);
-      setOptions(updatedOptions);
-    }
-  };
-
-  const handleOpenConfirm = (e) => {
-    e.preventDefault();
-    setShowConfirm(true);
-  };
-
-  const handleSubmit = async () => {
-    console.log(expirationDate);
-    console.log(options);
-    setShowConfirm(false);
-
-    try {
-      const payload = {
-        title,
-        description,
-        public: publicPoll,
-        expires_date: expirationDate,
-        status: "published",
-      };
-
-      if (options.length < 2) {
-        setMessage("Please provide at least 2 options ❗");
-        return;
-      }
-      try {
-        const response = await axios.post(
-          `${API_URL}/api/polls/${user_id}`,
-          payload,
-          {
-            withCredentials: true,
-          }
-        );
-
-        const poll_id = response.data.poll_id;
-
-        options.map(async (option) => {
-          await axios.post(
-            `${API_URL}/api/poll-options/`,
-            {
-              option_text: option,
-              poll_id: poll_id,
-            },
-
-            { withCredentials: true }
-          );
-        });
-      } catch (error) {
-        console.error("Failed to Publish Poll:", error);
-      }
-      nav("/MyPolls");
-
-      setMessage("Vote Poll Created Successfully ✅");
-      handleResetConfirmed();
-    } catch (err) {
-      console.error(err);
-      setMessage(err.response?.data?.error || "Failed to create vote poll ❌");
-    }
-    nav("/MyPolls");
-  };
-
-  const handleResetConfirmed = () => {
-    setShowResetConfirm(false);
-    setTitle("");
-    setDescription("");
-    setOptions(["", ""]);
-    setPublicPoll(false);
-    setExpirationDate("");
-    setMessage("");
-    setShowConfirm(false);
-  };
 
   useEffect(() => {
     const fetchUserPolls = async () => {
@@ -181,6 +39,230 @@ const CreatePollForm = () => {
     };
     fetchUserPolls();
   }, []);
+
+  useEffect(() => {
+    if (location.state) {
+      setTitle(location.state.title || "");
+      setDescription(location.state.description || "");
+      setPublicPoll(
+        location.state.publicPoll === true ||
+          location.state.publicPoll === "true"
+      );
+      const rawDate = location.state.expirationDate || new Date();
+      setExpirationDate(formatForDatetimeLocal(rawDate));
+      setOptions(
+        (location.state.options || ["", ""]).map((text) => ({
+          option_text: text,
+        }))
+      );
+      setPollId(location.state.poll_id);
+    }
+  }, [location.state]);
+
+  const formatForDatetimeLocal = (dateInput) => {
+    const date = new Date(dateInput);
+    if (isNaN(date.getTime())) return "";
+
+    const pad = (n) => String(n).padStart(2, "0");
+
+    const yyyy = date.getFullYear();
+    const MM = pad(date.getMonth() + 1);
+    const dd = pad(date.getDate());
+    const HH = pad(date.getHours());
+    const mm = pad(date.getMinutes());
+
+    return `${yyyy}-${MM}-${dd}T${HH}:${mm}`;
+  };
+
+  const handleSave = async () => {
+    const parsedDate = new Date(expirationDate);
+    const formattedDate = parsedDate.toISOString();
+    console.log(expirationDate);
+    const payload = {
+      title,
+      description,
+      public: publicPoll,
+      expires_date: formattedDate,
+      status: "draft",
+    };
+    for (let e in payload) {
+      console.log(e, typeof e);
+    }
+
+    try {
+      if (pollId) {
+        const response = await axios.patch(
+          `${API_URL}/api/polls/${pollId}`,
+          payload,
+          {
+            withCredentials: true,
+          }
+        );
+
+        const optionsRes = await axios.get(
+          `${API_URL}/api/poll-options/${pollId}`,
+          {
+            withCredentials: true,
+          }
+        );
+
+        const existingOptions = optionsRes.data;
+
+        await Promise.all(
+          existingOptions.map((option, index) => {
+            const newOpt = options[index];
+            return axios.patch(
+              `${API_URL}/api/poll-options/${option.option_id}`,
+              {
+                option_text: newOpt.option_text,
+              },
+              { withCredentials: true }
+            );
+          })
+        );
+      } else {
+        const response = await axios.post(
+          `${API_URL}/api/polls/${user_id}`,
+          payload,
+          {
+            withCredentials: true,
+          }
+        );
+        const newPollId = response.data.poll_id;
+        setPollId(newPollId);
+        await Promise.all(
+          options.map(async (option) => {
+            await axios.post(
+              `${API_URL}/api/poll-options/`,
+              {
+                option_text: option.option_text,
+                poll_id: newPollId,
+              },
+
+              { withCredentials: true }
+            );
+          })
+        );
+      }
+    } catch (error) {
+      console.error("Failed to save as draft:", error);
+    }
+    nav("/MyPolls");
+  };
+
+  const handleSubmit = async () => {
+    setShowConfirm(false);
+
+    try {
+      const payload = {
+        title,
+        description,
+        public: publicPoll,
+        expires_date: expirationDate,
+        status: "published",
+      };
+
+      if (options.length < 2) {
+        setMessage("Please provide at least 2 options ❗");
+        return;
+      }
+      if (pollId) {
+        const response = await axios.patch(
+          `${API_URL}/api/polls/${pollId}`,
+          payload,
+          {
+            withCredentials: true,
+          }
+        );
+
+        const optionsRes = await axios.get(
+          `${API_URL}/api/poll-options/${pollId}`,
+          {
+            withCredentials: true,
+          }
+        );
+
+        const existingOptions = optionsRes.data; // assuming it's an array
+
+        await Promise.all(
+          existingOptions.map((option, index) => {
+            const newOpt = options[index];
+            return axios.patch(
+              `${API_URL}/api/poll-options/${option.option_id}`,
+              {
+                option_text: newOpt.option_text,
+              },
+              { withCredentials: true }
+            );
+          })
+        );
+      } else {
+        const response = await axios.post(
+          `${API_URL}/api/polls/${user_id}`,
+          payload,
+          {
+            withCredentials: true,
+          }
+        );
+        const newPollId = response.data.poll_id;
+        setPollId(newPollId);
+        await Promise.all(
+          options.map(async (option) => {
+            await axios.post(
+              `${API_URL}/api/poll-options/`,
+              {
+                option_text: option.option_text,
+                poll_id: newPollId,
+              },
+
+              { withCredentials: true }
+            );
+          })
+        );
+      }
+
+      setMessage("Vote Poll Created Successfully ✅");
+      handleResetConfirmed();
+      nav("/MyPolls");
+    } catch (err) {
+      console.error(err);
+      setMessage(err.response?.data?.error || "Failed to create vote poll ❌");
+    }
+    nav("/MyPolls");
+  };
+
+  const handleOptionChange = (index, value) => {
+    const updatedOptions = [...options];
+    updatedOptions[index] = { option_text: value };
+    setOptions(updatedOptions);
+  };
+
+  const addOption = () => {
+    setOptions([...options, { option_text: "" }]);
+  };
+
+  const removeOption = (index) => {
+    if (options.length > 2) {
+      const updatedOptions = options.filter((_, i) => i !== index);
+      setOptions(updatedOptions);
+    }
+  };
+
+  const handleOpenConfirm = (e) => {
+    e.preventDefault();
+    setShowConfirm(true);
+  };
+
+  const handleResetConfirmed = () => {
+    setShowResetConfirm(false);
+    setTitle("");
+    setDescription("");
+    setOptions(["", ""]);
+    setPublicPoll(false);
+    setExpirationDate("");
+    setMessage("");
+    setShowConfirm(false);
+  };
 
   return (
     <div className="create-vote-poll-container">
@@ -211,7 +293,7 @@ const CreatePollForm = () => {
               <input
                 type="text"
                 placeholder={`Option ${index + 1}`}
-                value={opt}
+                value={opt.option_text}
                 onChange={(e) => handleOptionChange(index, e.target.value)}
                 required
               />
