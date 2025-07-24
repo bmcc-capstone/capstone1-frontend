@@ -14,6 +14,7 @@ const CreatePollForm = () => {
   const [user_id, setUserId] = useState("");
   const [showConfirm, setShowConfirm] = useState(false);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
+  const [pollId, setPollId] = useState();
   const nav = useNavigate();
   const location = useLocation();
 
@@ -92,7 +93,7 @@ const CreatePollForm = () => {
       });
 
       const poll_id = response.data.poll_id;
-
+      setPollId(poll_id);
       // Save all options
       await Promise.all(
         options.map((opt) =>

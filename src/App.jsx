@@ -18,11 +18,10 @@ import CreatePollForm from "./components/CreatePollForm";
 import MyPolls from "./components/MyPolls";
 import LivePolls from "./components/LivePolls";
 import LivePoll from "./components/LivePoll";
-<<<<<<< HEAD
+
 import PollForm from "./components/PollForm";
-=======
 //import PollForm from "./components/PollForm";
->>>>>>> a373becaf1401a60af027597b20dd5b3f59808f1
+
 import Results from "./components/Results";
 import PollVotingPage from "./components/PollVotingPage";
 import ShareableLinkPage from "./components/shareableLink";
@@ -79,13 +78,9 @@ const App = () => {
           <Route exact path="/" element={<Home />} />
           <Route path="/MyPolls" element={<MyPolls user={user} />} />
           <Route path="*" element={<NotFound />} />
-<<<<<<< HEAD
           <Route path="/PollForm/:slug" element={<PollForm user={user} />} />
           <Route path="/Results/:slug" element={<Results />} />
           <Route path="/share/:id" element={<ShareableLinkPage />} />
-=======
-          <Route path="/results/:poll_id" element={<Results />} />
->>>>>>> a373becaf1401a60af027597b20dd5b3f59808f1
         </Routes>
       </div>
     </div>
