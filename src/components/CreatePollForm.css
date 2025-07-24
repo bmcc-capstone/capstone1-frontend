@@ -1,3 +1,4 @@
+/* ========== Container ========== */
 .create-vote-poll-container {
   max-width: 500px;
   margin: 3rem auto;
@@ -14,6 +15,7 @@
   color: #333333;
 }
 
+/* ========== Labels & Inputs ========== */
 label {
   display: block;
   margin-top: 1rem;
@@ -37,6 +39,23 @@ textarea {
   min-height: 80px;
 }
 
+input[type="date"],
+input[type="datetime-local"] {
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+/* ========== Message ========== */
+.message {
+  text-align: center;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  color: #1890ff;
+}
+
+/* ========== Options ========== */
 .options-container {
   margin-top: 1rem;
 }
@@ -45,10 +64,6 @@ textarea {
   display: flex;
   align-items: center;
   margin-bottom: 0.8rem;
-}
-
-.option-item input {
-  flex: 1;
 }
 
 .option-item input[type="text"] {
@@ -65,48 +80,48 @@ textarea {
 
 .option-item button {
   margin-left: 0.6rem;
-  background-color: #ff4d4f;
-  color: #fff;
-  border: none;
   padding: 0.4rem 0.7rem;
   border-radius: 6px;
-  cursor: pointer;
   font-size: 0.9rem;
+  cursor: pointer;
   transition: background-color 0.2s;
-  width: auto;
-  min-width: 0;
-  display: inline-block;
+  display: inline-block !important;
+  width: auto !important;
+  margin-top: 0 !important;
+  font-weight: normal !important;
+  border: none;
 }
 
-.option-item button:hover {
+/* Remove option button (red) */
+.option-item button.remove-option {
+  background-color: #ff4d4f;
+  color: #fff;
+}
+
+.option-item button.remove-option:hover {
   background-color: #d9363e;
 }
 
-.options-container > button {
+/* Add Option button (blue) */
+button.add-option {
   margin-top: 0.5rem;
   background-color: #1890ff;
   color: #fff;
-  border: none;
   padding: 0.5rem 1rem;
   border-radius: 6px;
-  cursor: pointer;
   font-size: 0.95rem;
+  cursor: pointer;
   transition: background-color 0.2s;
+  border: none;
+  display: inline-block;
+  width: auto;
 }
 
-.options-container > button:hover {
+button.add-option:hover {
   background-color: #147dc2;
 }
 
-/* Message */
-.message {
-  text-align: center;
-  margin-bottom: 1rem;
-  font-weight: 600;
-  color: #1890ff;
-}
-
-/* Public poll checkbox */
+/* ========== Public Poll Checkbox ========== */
 .public-poll-checkbox {
   display: flex;
   align-items: center;
@@ -130,53 +145,68 @@ textarea {
   cursor: pointer;
 }
 
-input[type="date"] {
-  margin: 0.5rem 0;
-  padding: 0.5rem;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-}
+/* ========== Buttons ========== */
 
-/* Submit button */
-form button[type="submit"] {
-  margin-top: 1.5rem;
+/* Save button (orange) */
+button.save-btn {
+  display: block;
   width: 100%;
-  background-color: #52c41a;
+  margin-top: 1.2rem;
+  background-color: #fa8c16;
   color: #fff;
-  border: none;
   padding: 0.8rem 1rem;
   border-radius: 8px;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.2s;
+  border: none;
 }
 
-form button[type="submit"]:hover {
+button.save-btn:hover {
+  background-color: #d46b08;
+}
+
+/* Publish button (green) */
+button.publish-btn {
+  margin-top: 1.5rem;
+  width: 100%;
+  background-color: #52c41a;
+  color: #fff;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  border: none;
+}
+
+button.publish-btn:hover {
   background-color: #3aa10e;
 }
 
-/* Reset button */
-form button[type="button"] {
+/* Reset button (red) */
+button.reset-btn {
   display: block;
   width: 100%;
   margin-top: 0.8rem;
   background-color: #ff4d4f;
   color: #fff;
-  border: none;
   padding: 0.8rem 1rem;
   border-radius: 8px;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.2s;
+  border: none;
 }
 
-form button[type="button"]:hover {
+button.reset-btn:hover {
   background-color: #d9363e;
 }
 
-/* Confirmation modal */
+/* ========== Modal ========== */
 .poll-confirm-modal {
   position: fixed;
   top: 0;
@@ -194,7 +224,7 @@ form button[type="button"]:hover {
   background: #fff;
   padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0 12px 32px rgba(0,0,0,0.2);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
   text-align: center;
   max-width: 400px;
   width: 90%;
@@ -220,6 +250,7 @@ form button[type="button"]:hover {
   transition: background-color 0.2s;
 }
 
+/* Modal Confirm - Green */
 .modal-actions button:first-child {
   background-color: #52c41a;
   color: #fff;
@@ -229,6 +260,7 @@ form button[type="button"]:hover {
   background-color: #3aa10e;
 }
 
+/* Modal Cancel - Red */
 .modal-actions button:last-child {
   background-color: #ff4d4f;
   color: #fff;
@@ -236,14 +268,4 @@ form button[type="button"]:hover {
 
 .modal-actions button:last-child:hover {
   background-color: #d9363e;
-}
-
-/* Fix: Make option-item buttons inline and auto width */
-.option-item button[type="button"] {
-  display: inline-block !important;
-  width: auto !important;
-  margin-top: 0 !important;
-  padding: 0.4rem 0.7rem !important;
-  font-size: 0.9rem !important;
-  font-weight: normal !important;
 }
