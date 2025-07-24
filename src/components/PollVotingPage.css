@@ -39,6 +39,8 @@
   padding: 10px 16px;
   transition: background 0.2s;
   cursor: pointer;
+  flex-direction: row; /* Already flex, just make sure it's row */
+  gap: 12px;           /* Add gap between icon and text */
 }
 
 .poll-option:hover {
@@ -82,4 +84,33 @@
   padding: 24px;
   text-align: center;
   box-shadow: 0 2px 12px rgba(168, 107, 60, 0.08);
+}
+
+.option-rank-badge {
+  display: inline-block;
+  margin-left: 0;
+  margin-right: 12px;  /* Move space to the right */
+  background: #a86b3c;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  line-height: 28px;
+  text-align: center;
+  vertical-align: middle;
+  box-shadow: 0 1px 4px rgba(168, 107, 60, 0.15);
+}
+
+@keyframes stomp {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.4); }
+  60% { transform: scale(0.95); }
+  80% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.poll-option.stomp .option-rank-badge {
+  animation: stomp 1.5s;
 }
