@@ -1,14 +1,42 @@
-// import React, { useState, useEffect } from "react";
-// import axios from "axios";
-// import { useParams } from "react-router-dom";
-// import { API_URL } from "../shared";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+import { API_URL } from "../shared";
+import { Navigate } from "react-router-dom";
+// import { useActionState, useEffect } from "react";
 
 const PollForm = () => {
   // Get slug from URL params (React Router)
   const { slug } = useParams();
 
-  // temporary data to display Poll Form page for now
-  const [pollData, setPollData] = useState([]);
+  const [pollData, setPollData] = useState({});
+  const [error, setError] = useState("");
+
+  // fetching poll data to display on poll form
+  useEffect(() => {
+    const fetchPollData = async () => {
+      try {
+        const pollData = await axios.get(`${API_URL}/api/polls/${slug}`, {
+          withCredentials: true,
+        });
+
+        console.log(pollData.data);
+        setPollData(pollData.data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchPollData();
+  }, [slug]);
+
+  const redirectToResults = () => {
+    if (pollData.status === "expired") {
+      nav(`/results/${slug}`)
+    }
+  }
+
+
 // const PollForm = () => {
 //   // Get poll_id from URL params (React Router)
 //   const { poll_id } = useParams();
@@ -22,30 +50,30 @@ const PollForm = () => {
 //   const [selectedOptions, setSelectedOptions] = useState([]);
 
 //   // Fetch poll options when component starts or the poll_id changes
-//   useEffect(() => {
-//     const fetchballotItems = async () => {
-//       const response = await axios.get(
-//         `${API_URL}/api/ballotItems/${poll_id}`,
-//         {
-//           withCredentials: true,
-//         }
-//       );
-//     };
-//     fetchballotItems();
+//  useEffect(() => {
+  //   const fetchballotItems = async () => {
+  //     const response = await axios.get(
+  //       `${API_URL}/api/ballotItems/${poll_id}`,
+  //       {
+  //         withCredentials: true,
+  //       }
+  //     );
+  //   };
+  //   fetchballotItems();
 
-//     const fetchOptions = async () => {
-//       try {
-//         const response = await axios.get(
-//           `${API_URL}/api/poll-options/${poll_id}`,
-//           {
-//             withCredentials: true,
-//           }
-//         );
-//         setOptions(response.data);
-//       } catch (error) {
-//         console.error("Failed to fetch poll options:", error);
-//       }
-//     };
+  //   const fetchOptions = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         `${API_URL}/api/poll-options/${poll_id}`,
+  //         {
+  //           withCredentials: true,
+  //         }
+  //       );
+  //       setOptions(response.data);
+  //     } catch (error) {
+  //       console.error("Failed to fetch poll options:", error);
+  //     }
+  //   };
 
 //     fetchOptions();
 //   }, []);
@@ -95,7 +123,14 @@ const PollForm = () => {
 //     }
 //   };
 
-//   return <h1>hello</h1>;
-// };
+  return (
+    <div>
+      <h3>Welcome to Poll Form</h3>
+      <p>Title: {pollData.title}</p>
+      <p>description: {pollData.description}</p>
+      <h3></h3>
+    </div>
+  );
+};
 
-// export default PollForm;
+export default PollForm;

@@ -208,9 +208,7 @@ const CreatePollForm = () => {
           }
         );
 
-        console.log(response);
         newPollId = response.data.poll.poll_id;
-        console.log(newPollId)
         setPollId(newPollId);
 
         await Promise.all(
@@ -236,7 +234,7 @@ const CreatePollForm = () => {
       console.error(err);
       setMessage(err.response?.data?.error || "Failed to create vote poll ❌");
     }
-    console.log(pollId);
+    
     nav(`/share/${newPollId}`);
   };
 
