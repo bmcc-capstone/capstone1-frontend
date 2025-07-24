@@ -9,7 +9,7 @@ const PollVotingPage = () => {
   const navigate = useNavigate();
 
   const [poll, setPoll] = useState(null);
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedOptions, setSelectedOptions] = useState([]); // array of option_ids
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
 
@@ -23,27 +23,41 @@ const PollVotingPage = () => {
         setError("Failed to load poll ❌");
       }
     };
-
     fetchPoll();
   }, [pollId]);
 
+  // Toggle option select/deselect
+  const handleOptionChange = (optionId) => {
+    setError("");
+    if (selectedOptions.includes(optionId)) {
+      setSelectedOptions(selectedOptions.filter((id) => id !== optionId));
+    } else {
+      setSelectedOptions([...selectedOptions, optionId]);
+    }
+  };
+
   const handleVote = async () => {
-    if (!selectedOption) {
-      setError("Please select an option before voting.");
+    if (selectedOptions.length === 0) {
+      setError("Please select at least one option before voting.");
       return;
     }
-    console.log("Submitting vote for poll:", pollId);
-    console.log("Selected option:", selectedOption);
+
+    // Prepare votes with ranks in the order user selected
+    const votesPayload = selectedOptions.map((option_id, idx) => ({
+      option_id,
+      rank: idx + 1,
+    }));
+
     try {
       await axios.post(`${API_URL}/api/ballots/vote`, {
         poll_id: pollId,
-        option_id: selectedOption,
+        votes: votesPayload,
+        // user_id: currentUserId, // add if you have user auth
       });
 
       setMessage("Thank you for voting! 🎉");
       setError("");
 
-      // Redirect back to LivePolls after vote
       setTimeout(() => navigate("/LivePolls"), 2000);
     } catch (err) {
       console.error(err);
@@ -62,17 +76,27 @@ const PollVotingPage = () => {
 
       <div className="poll-options">
         {poll.pollOptions && poll.pollOptions.length > 0 ? (
-          poll.pollOptions.map((option) => (
-            <label key={option.option_id} className="poll-option">
-              <input
-                type="radio"
-                name="pollOption"
-                value={option.option_id}
-                onChange={() => setSelectedOption(option.option_id)}
-              />
-              {option.option_text}
-            </label>
-          ))
+          poll.pollOptions.map((option) => {
+            const selectedIdx = selectedOptions.indexOf(option.option_id);
+            //For each option, this checks if it’s selected and finds its position in the array(Selectedoptions).
+            //If the option is selected, it returns its index (0 for first, 1 for second, etc.).
+            //If not selected, it returns -1
+            return (
+              <label key={option.option_id} className={`poll-option${selectedIdx !== -1 ? " stomp" : ""}`}>
+                {selectedIdx !== -1 && (
+                  <span className="option-rank-badge">{selectedIdx + 1}</span>
+                )}
+                <input
+                  type="checkbox"
+                  name="pollOption"
+                  value={option.option_id}
+                  checked={selectedOptions.includes(option.option_id)}
+                  onChange={() => handleOptionChange(option.option_id)}
+                />
+                {option.option_text}
+              </label>
+            );
+          })
         ) : (
           <p>No options available for this poll.</p>
         )}
