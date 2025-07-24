@@ -14,7 +14,6 @@ const CreatePollForm = () => {
   const [user_id, setUserId] = useState("");
   const [showConfirm, setShowConfirm] = useState(false);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
-  const [pollId, setPollId] = useState();
   const nav = useNavigate();
   const location = useLocation();
 
