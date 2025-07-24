@@ -97,7 +97,6 @@ const CreatePollForm = () => {
           {
             withCredentials: true,
           }
-
         );
 
         const optionsRes = await axios.get(
@@ -139,7 +138,6 @@ const CreatePollForm = () => {
                 option_text: option.option_text,
                 poll_id: newPollId,
               },
-
               { withCredentials: true }
             );
           })
@@ -215,12 +213,10 @@ const CreatePollForm = () => {
                 option_text: option.option_text,
                 poll_id: newPollId,
               },
-
               { withCredentials: true }
             );
           })
         );
-
       }
 
       setMessage("Vote Poll Created Successfully ✅");
@@ -300,13 +296,17 @@ const CreatePollForm = () => {
                 required
               />
               {options.length > 2 && (
-                <button type="button" onClick={() => removeOption(index)}>
+                <button
+                  type="button"
+                  className="remove-option-btn"
+                  onClick={() => removeOption(index)}
+                >
                   ❌
                 </button>
               )}
             </div>
           ))}
-          <button type="button" onClick={addOption}>
+          <button type="button" className="add-option" onClick={addOption}>
             + Add Option
           </button>
         </div>
@@ -327,11 +327,20 @@ const CreatePollForm = () => {
           />
           <label>Allow guests (unauthorized users) to vote</label>
         </div>
-        <button type="button" onClick={handleSave}>
+
+        <button type="button" className="save-btn" onClick={handleSave}>
           Save
         </button>
-        <button type="submit">Publish Poll</button>
-        <button type="button" onClick={() => setShowResetConfirm(true)}>
+
+        <button type="submit" className="publish-btn">
+          Publish Poll
+        </button>
+
+        <button
+          type="button"
+          className="reset-btn"
+          onClick={() => setShowResetConfirm(true)}
+        >
           Reset Form
         </button>
       </form>

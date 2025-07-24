@@ -19,7 +19,7 @@ import MyPolls from "./components/MyPolls";
 import LivePolls from "./components/LivePolls";
 import LivePoll from "./components/LivePoll";
 import PollForm from "./components/PollForm";
-import GoToVote from "./components/GoToVote";
+import PollVotingPage from "./components/PollVotingPage";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -69,8 +69,8 @@ const App = () => {
             path="/CreatePollForm"
             element={<CreatePollForm user={user} />}
           />
-          <Route path="/GoToVote" element={<GoToVote user={user} />} />
-          <Route path="/LivePolls/:pollId" element={<LivePoll />} />
+          <Route path="/livepolls/:pollId" element={<PollVotingPage />} />
+          <Route path="/LivePoll" element={<LivePoll />} />
           <Route path="/LivePolls" element={<LivePolls />} />
           <Route path="/My Polls" element={<MyPolls />} />
 
