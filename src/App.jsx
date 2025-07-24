@@ -64,10 +64,7 @@ const App = () => {
       <NavBar user={user} onLogout={handleLogout} />
       <div className="app">
         <Routes>
-          <Route
-            path="/CreatePollForm"
-            element={<CreatePollForm user={user} />}
-          />
+          <Route path="/CreatePollForm" element={<CreatePollForm user={user} />}/>
           <Route path="/GoToVote" element={<GoToVote user={user} />} />
           <Route path="/LivePolls/:pollId" element={<LivePoll />} />
           <Route path="/LivePolls" element={<LivePolls />} />
