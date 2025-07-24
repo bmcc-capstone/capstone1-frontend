@@ -9,7 +9,7 @@ const PollVotingPage = () => {
   const navigate = useNavigate();
 
   const [poll, setPoll] = useState(null);
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedOptions, setSelectedOptions] = useState([]); // array of option_ids
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
 
@@ -23,27 +23,41 @@ const PollVotingPage = () => {
         setError("Failed to load poll ❌");
       }
     };
-
     fetchPoll();
   }, [pollId]);
 
+  // Toggle option select/deselect
+  const handleOptionChange = (optionId) => {
+    setError("");
+    if (selectedOptions.includes(optionId)) {
+      setSelectedOptions(selectedOptions.filter((id) => id !== optionId));
+    } else {
+      setSelectedOptions([...selectedOptions, optionId]);
+    }
+  };
+
   const handleVote = async () => {
-    if (!selectedOption) {
-      setError("Please select an option before voting.");
+    if (selectedOptions.length === 0) {
+      setError("Please select at least one option before voting.");
       return;
     }
-    console.log("Submitting vote for poll:", pollId);
-    console.log("Selected option:", selectedOption);
+
+    // Prepare votes with ranks in the order user selected
+    const votesPayload = selectedOptions.map((option_id, idx) => ({
+      option_id,
+      rank: idx + 1,
+    }));
+
     try {
       await axios.post(`${API_URL}/api/ballots/vote`, {
         poll_id: pollId,
-        option_id: selectedOption,
+        votes: votesPayload,
+        // user_id: currentUserId, // add if you have user auth
       });
 
       setMessage("Thank you for voting! 🎉");
       setError("");
 
-      // Redirect back to LivePolls after vote
       setTimeout(() => navigate("/LivePolls"), 2000);
     } catch (err) {
       console.error(err);
@@ -65,10 +79,11 @@ const PollVotingPage = () => {
           poll.pollOptions.map((option) => (
             <label key={option.option_id} className="poll-option">
               <input
-                type="radio"
+                type="checkbox"
                 name="pollOption"
                 value={option.option_id}
-                onChange={() => setSelectedOption(option.option_id)}
+                checked={selectedOptions.includes(option.option_id)}
+                onChange={() => handleOptionChange(option.option_id)}
               />
               {option.option_text}
             </label>
