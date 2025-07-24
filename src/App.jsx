@@ -65,10 +65,7 @@ const App = () => {
       <NavBar user={user} onLogout={handleLogout} />
       <div className="app">
         <Routes>
-          <Route
-            path="/CreatePollForm"
-            element={<CreatePollForm user={user} />}
-          />
+          <Route path="/CreatePollForm" element={<CreatePollForm user={user} />}/>
           <Route path="/livepolls/:pollId" element={<PollVotingPage />} />
           <Route path="/LivePoll" element={<LivePoll />} />
           <Route path="/LivePolls" element={<LivePolls />} />
@@ -78,8 +75,9 @@ const App = () => {
           <Route exact path="/" element={<Home />} />
           <Route path="/MyPolls" element={<MyPolls user={user} />} />
           <Route path="*" element={<NotFound />} />
-          <Route path="/PollForm/:poll_id" element={<PollForm user={user} />} />
-          <Route path="/Results/:poll_id" element={<Results />} />
+          <Route path="/PollForm/:slug" element={<PollForm user={user} />} />
+          <Route path="/Results/:slug" element={<Results />} />
+          <Route path="/share/:id" element={<ShareableLinkPage />} />
         </Routes>
       </div>
     </div>
