@@ -51,6 +51,18 @@ textarea {
   flex: 1;
 }
 
+.option-item input[type="text"] {
+  flex: 1;
+  width: auto;
+  min-width: 0;
+  margin: 0;
+  padding: 0.7rem 1rem;
+  border: 1px solid #cccccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
 .option-item button {
   margin-left: 0.6rem;
   background-color: #ff4d4f;
@@ -61,6 +73,9 @@ textarea {
   cursor: pointer;
   font-size: 0.9rem;
   transition: background-color 0.2s;
+  width: auto;
+  min-width: 0;
+  display: inline-block;
 }
 
 .option-item button:hover {
@@ -221,4 +236,14 @@ form button[type="button"]:hover {
 
 .modal-actions button:last-child:hover {
   background-color: #d9363e;
+}
+
+/* Fix: Make option-item buttons inline and auto width */
+.option-item button[type="button"] {
+  display: inline-block !important;
+  width: auto !important;
+  margin-top: 0 !important;
+  padding: 0.4rem 0.7rem !important;
+  font-size: 0.9rem !important;
+  font-weight: normal !important;
 }
