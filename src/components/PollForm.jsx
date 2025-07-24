@@ -4,15 +4,36 @@ import { useParams } from "react-router-dom";
 import { API_URL } from "../shared";
 
 const PollForm = () => {
-  // Get poll_id from URL params (React Router)
-  const { poll_id } = useParams();
-  console.log("POLLID", poll_id);
+  // Get slug from URL params (React Router)
+  const { slug } = useParams();
+
+  // temporary data to display Poll Form page for now
+  const [pollData, setPollData] = useState([]);
 
   // All poll options fetched from backend
   const [options, setOptions] = useState([]);
 
   // Array of selected options, in order they were clicked
   const [selectedOptions, setSelectedOptions] = useState([]);
+
+  
+  // fetching poll data using slug 
+  useEffect(() =>{
+    const fetchPollData = async () => {
+      try {
+      const response = await axios.get(
+        `${API_URL}/api/polls/${slug}`, 
+        { withCredentials: true }
+      );
+
+      setPollData(response.data);
+      } catch (error) {
+        console.error('Failed to fetch poll data:', error);
+      }
+    };
+
+    fetchPollData();
+  }, [slug]);
 
   // Fetch poll options when component starts or the poll_id changes
   useEffect(() => {
@@ -55,6 +76,7 @@ const PollForm = () => {
     setSelectedOptions(updatedSelections);
   };
 
+
   // When submit is cliked it will make the ranked array and send a PATCH request to update ranks
   const handleSubmit = async () => {
     // Map selected options to an array of { ballotItem_id, rank }
@@ -77,7 +99,14 @@ const PollForm = () => {
       console.error("Failed to update ranks:", error);
     }
   };
-  return <h1>hello</h1>;
+
+  return (
+    <div>
+      <h1>hello</h1>
+      <h3>poll data</h3>
+    </div>
+    
+  )
 };
 
 export default PollForm;
