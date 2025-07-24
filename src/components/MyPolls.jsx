@@ -3,9 +3,8 @@ import axios from "axios";
 import "./MyPolls.css";
 import { API_URL } from "../shared";
 import PollCard from "./pollCard";
-import { Link } from "react-router-dom";
 
-const MyPoll = () => {
+const MyPolls = () => {
   const [polls, setPolls] = useState([]);
   const [tallies, setTallies] = useState({});
   const [error, setError] = useState("");
@@ -17,7 +16,7 @@ const MyPoll = () => {
         const userData = await axios.get(`${API_URL}/auth/me`, {
           withCredentials: true,
         });
-        const username = userData.data.username;
+        const username = userData.data.user?.username;
         if (!username) throw new Error("No username found");
 
         const findId = await axios.get(`${API_URL}/api/userId/${username}`, {
@@ -76,19 +75,14 @@ const MyPoll = () => {
       ) : (
         <div className="poll-list">
           {polls.map((poll) => (
-            <Link
+            <PollCard
               key={poll.poll_id}
-              to={`/livepolls/${poll.poll_id}`}
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              <PollCard
-                id={poll.poll_id}
-                title={poll.title}
-                description={poll.description}
-                expires_date={poll.expires_date}
-                totalVotes={tallies[poll.poll_id]}
-              />
-            </Link>
+              id={poll.poll_id}
+              title={poll.title}
+              description={poll.description}
+              expires_date={poll.expires_date}
+              totalVotes={tallies[poll.poll_id]}
+            />
           ))}
         </div>
       )}
@@ -96,4 +90,4 @@ const MyPoll = () => {
   );
 };
 
-export default MyPoll;
+export default MyPolls;
