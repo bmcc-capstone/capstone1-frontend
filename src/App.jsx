@@ -39,9 +39,16 @@ const App = () => {
 
   console.log(user?.user_id);
 
+  const hello = async () => {
+    await axios.get(`${API_URL}/polls/`, {
+      withCredentials: true,
+    });
+  };
+
   // Check authentication status on app load
   useEffect(() => {
     checkAuth();
+    hello();
   }, []);
 
   const handleLogout = async () => {

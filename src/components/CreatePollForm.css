@@ -82,7 +82,7 @@ input[type="datetime-local"] {
   margin-left: 0.6rem;
   padding: 0.4rem 0.7rem;
   border-radius: 6px;
-`  font-size: 0.9rem;
+  font-size: 0.9rem;
   cursor: pointer;
   transition: background-color 0.2s;
   display: inline-block !important;
