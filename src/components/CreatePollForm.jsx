@@ -7,7 +7,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 const CreatePollForm = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [options, setOptions] = useState([]);
+  const [options, setOptions] = useState(["", ""]);
   const [publicPoll, setPublicPoll] = useState(false);
   const [message, setMessage] = useState("");
   const [expirationDate, setExpirationDate] = useState("");
@@ -307,13 +307,17 @@ const CreatePollForm = () => {
                 required
               />
               {options.length > 2 && (
-                <button type="button" onClick={() => removeOption(index)}>
+                <button
+                  type="button"
+                  className="remove-option-btn"
+                  onClick={() => removeOption(index)}
+                >
                   ❌
                 </button>
               )}
             </div>
           ))}
-          <button type="button" onClick={addOption}>
+          <button type="button" className="add-option" onClick={addOption}>
             ➕ Add Option
           </button>
         </div>
@@ -334,11 +338,17 @@ const CreatePollForm = () => {
           />
           <label>Allow guests (unauthorized users) to vote</label>
         </div>
-        <button type="button" onClick={handleSave}>
+        <button type="button" className="save-btn" onClick={handleSave}>
           Save
         </button>
-        <button type="submit">Publish Poll</button>
-        <button type="button" onClick={() => setShowResetConfirm(true)}>
+        <button type="submit" className=" publish-btn">
+          Publish Poll
+        </button>
+        <button
+          type="button"
+          className="reset-btn"
+          onClick={() => setShowResetConfirm(true)}
+        >
           Reset Form
         </button>
       </form>
