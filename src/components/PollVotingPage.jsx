@@ -71,8 +71,12 @@ const PollVotingPage = () => {
 
   return (
     <div className="poll-vote-container">
-      <h2>Vote: {poll.title}</h2>
-      <p>{poll.description}</p>
+      <div className="poll-vote-header">
+        <div className="vote-label">Vote</div>
+        <div className="poll-title-main">{poll.title}</div>
+        <div className="poll-header-divider"></div>
+        <p className="poll-description">{poll.description}</p>
+      </div>
 
       <div className="poll-options">
         {poll.pollOptions && poll.pollOptions.length > 0 ? (
