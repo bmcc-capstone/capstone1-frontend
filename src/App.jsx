@@ -19,7 +19,8 @@ import MyPolls from "./components/MyPolls";
 import LivePolls from "./components/LivePolls";
 import LivePoll from "./components/LivePoll";
 import PollForm from "./components/PollForm";
-import GoToVote from "./components/GoToVote";
+import Results from "./components/Results";
+import PollVotingPage from "./components/PollVotingPage";
 import ShareableLinkPage from "./components/shareableLink";
 
 const App = () => {
@@ -64,19 +65,21 @@ const App = () => {
       <NavBar user={user} onLogout={handleLogout} />
       <div className="app">
         <Routes>
-          <Route path="/CreatePollForm" element={<CreatePollForm user={user} />}/>
-          <Route path="/GoToVote" element={<GoToVote user={user} />} />
-          <Route path="/LivePolls/:pollId" element={<LivePoll />} />
+          <Route
+            path="/CreatePollForm"
+            element={<CreatePollForm user={user} />}
+          />
+          <Route path="/livepolls/:pollId" element={<PollVotingPage />} />
+          <Route path="/LivePoll" element={<LivePoll />} />
           <Route path="/LivePolls" element={<LivePolls />} />
           <Route path="/My Polls" element={<MyPolls />} />
           <Route path="/login" element={<Login setUser={setUser} />} />
           <Route path="/signup" element={<Signup setUser={setUser} />} />
           <Route exact path="/" element={<Home />} />
-          <Route path="*" element={<NotFound />} />
           <Route path="/MyPolls" element={<MyPolls user={user} />} />
-          {/* <Route path="/PollForm/:poll_id" element={<PollForm user={user} />} /> */}
-          <Route path="/share/:id" element= {<ShareableLinkPage/>}/>
-          <Route path="/PollForm/:slug" element={<PollForm />}/>
+          <Route path="*" element={<NotFound />} />
+          <Route path="/PollForm/:poll_id" element={<PollForm user={user} />} />
+          <Route path="/Results/:poll_id" element={<Results />} />
         </Routes>
       </div>
     </div>

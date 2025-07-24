@@ -3,6 +3,7 @@ import axios from "axios";
 import "./MyPolls.css";
 import { API_URL } from "../shared";
 import PollCard from "./pollCard";
+import { Link } from "react-router-dom";
 
 const MyPoll = () => {
   const [polls, setPolls] = useState([]);
@@ -70,16 +71,19 @@ const MyPoll = () => {
       ) : (
         <div className="poll-list">
           {polls.map((poll) => (
-
-            <PollCard
+            <Link
               key={poll.poll_id}
-              id={poll.poll_id}
-              title={poll.title}
-              description={poll.description}
-              expires_date={poll.expires_date}
-              totalVotes={tallies[poll.poll_id]}
-            />
-
+              to={`/livepolls/${poll.poll_id}`}
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <PollCard
+                id={poll.poll_id}
+                title={poll.title}
+                description={poll.description}
+                expires_date={poll.expires_date}
+                totalVotes={tallies[poll.poll_id]}
+              />
+            </Link>
           ))}
         </div>
       )}
