@@ -17,7 +17,7 @@ const MyPoll = () => {
         const userData = await axios.get(`${API_URL}/auth/me`, {
           withCredentials: true,
         });
-        const username = userData.data.user?.username;
+        const username = userData.data.username;
         if (!username) throw new Error("No username found");
 
         const findId = await axios.get(`${API_URL}/api/userId/${username}`, {
@@ -35,9 +35,15 @@ const MyPoll = () => {
         const tallyResults = await Promise.all(
           findPolls.data.map(async (poll) => {
             try {
-              const res = await axios.get(`${API_URL}/api/tally/votes/${poll.poll_id}`, {withCredentials: true});
+              const res = await axios.get(
+                `${API_URL}/api/tally/votes/${poll.poll_id}`,
+                { withCredentials: true }
+              );
               // Sum all voteCounts for this poll
-              const totalVotes = res.data.reduce((sum, item) => sum + (item.voteCount || 0), 0);
+              const totalVotes = res.data.reduce(
+                (sum, item) => sum + (item.voteCount || 0),
+                0
+              );
               return { poll_id: poll.poll_id, totalVotes };
             } catch {
               return { poll_id: poll.poll_id, totalVotes: 0 };
@@ -50,7 +56,6 @@ const MyPoll = () => {
           tallyObj[poll_id] = totalVotes;
         });
         setTallies(tallyObj);
-
       } catch (err) {
         console.error(err);
         setError("Failed to load your polls ❌");
