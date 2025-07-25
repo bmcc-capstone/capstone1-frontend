@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { API_URL } from "../shared";
 import "./CreatePollForm.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const CreatePollForm = () => {
   const [title, setTitle] = useState("");
@@ -15,13 +15,73 @@ const CreatePollForm = () => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const nav = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    const fetchUserPolls = async () => {
+      try {
+        const userData = await axios.get(`${API_URL}/auth/me`, {
+          withCredentials: true,
+        });
+        const username = userData.data.user?.username;
+        if (!username) throw new Error("No username found");
+
+        const findId = await axios.get(`${API_URL}/api/userId/${username}`, {
+          withCredentials: true,
+        });
+        const userId = findId.data.user_id;
+        console.log("User ID:", userId);
+        setUserId(userId);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchUserPolls();
+  }, []);
+
+  useEffect(() => {
+    if (location.state) {
+      setTitle(location.state.title || "");
+      setDescription(location.state.description || "");
+      setPublicPoll(
+        location.state.publicPoll === true ||
+          location.state.publicPoll === "true"
+      );
+      const rawDate = location.state.expirationDate || new Date();
+      setExpirationDate(formatForDatetimeLocal(rawDate));
+      setOptions(
+        (location.state.options || ["", ""]).map((text) => ({
+          option_text: text,
+        }))
+      );
+      setPollId(location.state.poll_id);
+    }
+  }, [location.state]);
+
+  const formatForDatetimeLocal = (dateInput) => {
+    const date = new Date(dateInput);
+    if (isNaN(date.getTime())) return "";
+
+    const pad = (n) => String(n).padStart(2, "0");
+
+    const yyyy = date.getFullYear();
+    const MM = pad(date.getMonth() + 1);
+    const dd = pad(date.getDate());
+    const HH = pad(date.getHours());
+    const mm = pad(date.getMinutes());
+
+    return `${yyyy}-${MM}-${dd}T${HH}:${mm}`;
+  };
 
   const handleSave = async () => {
+    const parsedDate = new Date(expirationDate);
+    const formattedDate = parsedDate.toISOString();
+    console.log(expirationDate);
     const payload = {
       title,
       description,
-      publicPoll,
-      expirationDate,
+      public: publicPoll,
+      expires_date: formattedDate,
       status: "draft",
     };
 
@@ -94,6 +154,7 @@ const CreatePollForm = () => {
 
       setMessage("Vote Poll Created Successfully ✅");
       handleResetConfirmed();
+      nav("/MyPolls");
       nav("/MyPolls");
     } catch (err) {
       console.error(err);
@@ -186,7 +247,7 @@ const CreatePollForm = () => {
               <input
                 type="text"
                 placeholder={`Option ${index + 1}`}
-                value={opt}
+                value={opt.option_text}
                 onChange={(e) => handleOptionChange(index, e.target.value)}
                 required
               />
@@ -201,9 +262,8 @@ const CreatePollForm = () => {
               )}
             </div>
           ))}
-
           <button type="button" className="add-option" onClick={addOption}>
-            + Add Option
+            ➕ Add Option
           </button>
         </div>
 
@@ -223,7 +283,6 @@ const CreatePollForm = () => {
           />
           <label>Allow guests (unauthorized users) to vote</label>
         </div>
-
         <button type="button" className="save-btn" onClick={handleSave}>
           Save
         </button>
@@ -231,7 +290,6 @@ const CreatePollForm = () => {
         <button type="submit" className="publish-btn">
           Publish Poll
         </button>
-
         <button
           type="button"
           className="reset-btn"
