@@ -16,14 +16,14 @@ const ShareableLinkPage = ({}) => {
           withCredentials: true,
         });
 
-        const link = pollData.data.shareableLink;
-        console.log(link);
-        setLink(link);
-      } catch (err) {
-        console.error(err);
-        setError("Failed to fetch shareableLink ❌");
-      }
-    };
+      const link = pollData.data.shareableLink;
+      setLink(link);
+    } catch (err) {
+      console.error(err);
+      setError("Failed to fetch shareableLink ❌");
+    }
+  };
+
 
     fetchPollData();
   }, [id]);

@@ -83,6 +83,7 @@ const MyPolls = () => {
               description={poll.description}
               expires_date={poll.expires_date}
               totalVotes={tallies[poll.poll_id]}
+              slug={poll.slug}
             />
           ))}
         </div>
