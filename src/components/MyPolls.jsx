@@ -66,7 +66,7 @@ const MyPolls = () => {
 
   return (
     <div className="mypoll-container">
-      <h2>My Polls</h2>
+      <h2>My Polls 📊</h2>
 
       {error && <p className="error-message">{error}</p>}
 
