@@ -145,7 +145,13 @@ const LivePolls = () => {
                   {poll.title} {expanded[poll.poll_id] ? "▲" : "▼"}
                 </button>
                 {/* Poll details section, shown only if expanded */}
-                <div className={expanded[poll.poll_id] ? "poll-details" : "poll-details poll-details-hidden"}>
+                <div
+                  className={
+                    expanded[poll.poll_id]
+                      ? "poll-details"
+                      : "poll-details poll-details-hidden"
+                  }
+                >
                   {expanded[poll.poll_id] && (
                     <>
                       {/* Poll description */}
@@ -153,7 +159,8 @@ const LivePolls = () => {
                       <div className="livepoll-info">
                         {/* Number of users viewing */}
                         <p>
-                          <strong>Users viewing:</strong> {userCounts[poll.poll_id] || 0}
+                          <strong>Users viewing:</strong>{" "}
+                          {userCounts[poll.poll_id] || 0}
                         </p>
                         {/* Poll expiration date */}
                         <p>
@@ -162,7 +169,10 @@ const LivePolls = () => {
                         </p>
                       </div>
                       {/* Link to vote page for this poll */}
-                      <Link to={`/livepolls/${poll.poll_id}`} className="vote-link">
+                      <Link
+                        to={`/livepolls/${poll.poll_id}`}
+                        className="vote-link"
+                      >
                         Go to Vote Page
                       </Link>
                     </>
@@ -221,7 +231,13 @@ const LivePolls = () => {
                   {poll.title} {expanded[`expired-${poll.poll_id}`] ? "▲" : "▼"}
                 </button>
                 {/* Poll details section, shown only if expanded */}
-                <div className={expanded[`expired-${poll.poll_id}`] ? "poll-details" : "poll-details poll-details-hidden"}>
+                <div
+                  className={
+                    expanded[`expired-${poll.poll_id}`]
+                      ? "poll-details"
+                      : "poll-details poll-details-hidden"
+                  }
+                >
                   {expanded[`expired-${poll.poll_id}`] && (
                     <>
                       {/* Poll description */}
@@ -232,6 +248,12 @@ const LivePolls = () => {
                           <strong>Expired:</strong>{" "}
                           {new Date(poll.expires_date).toLocaleString()}
                         </p>
+                        <Link
+                          to={`/results/${poll.poll_id}`}
+                          className="vote-link"
+                        >
+                          Go to Results Page
+                        </Link>
                       </div>
                       {/* No vote link for expired polls */}
                     </>
