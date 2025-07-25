@@ -35,6 +35,7 @@ const Results = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        console.log(poll_id);
         setLoading(true);
         const pollRes = await axios.get(`${API_URL}/api/polls/poll/${poll_id}`);
         setPoll(pollRes.data);

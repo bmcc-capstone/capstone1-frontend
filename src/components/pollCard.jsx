@@ -5,8 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { API_URL } from "../shared";
 import axios from "axios";
 
-
-const PollCard = ({ title, description, id, expires_date, totalVotes, slug }) => {
+const PollCard = ({ title, description, id, expires_date, totalVotes }) => {
   const [poll, setPoll] = useState(null);
   const [pollOptions, setPollOptions] = useState([]);
   const navigate = useNavigate();
@@ -50,7 +49,14 @@ const PollCard = ({ title, description, id, expires_date, totalVotes, slug }) =>
   if (poll.status === "published") {
     const isExpired = new Date(expires_date) < new Date();
     return (
-      <Link to={isExpired ? `/results/${slug}` : `/pollVotingPage/${slug}`} className="pollCardLink">
+      <Link
+        to={
+          isExpired
+            ? `/results/${poll.poll_id}`
+            : `/pollVotingPage/${poll.poll_id}`
+        }
+        className="pollCardLink"
+      >
         <div className="pollContainer">
           <div className="info">
             <h3 id="title">{title}</h3>

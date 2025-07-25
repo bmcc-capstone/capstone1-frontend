@@ -5,7 +5,7 @@ import { API_URL } from "../shared";
 import "./PollVotingPage.css";
 
 const PollVotingPage = () => {
-  const { slug } = useParams();
+  const { poll_id } = useParams();
   const navigate = useNavigate();
 
   const [pollId, setPollId] = useState("");
@@ -17,7 +17,9 @@ const PollVotingPage = () => {
   useEffect(() => {
     const fetchPoll = async () => {
       try {
-        const response = await axios.get(`${API_URL}/api/polls/${slug}`);
+        const response = await axios.get(
+          `${API_URL}/api/polls/poll/${poll_id}`
+        );
         setPoll(response.data);
         setPollId(response.data.poll_id);
       } catch (err) {
@@ -26,7 +28,7 @@ const PollVotingPage = () => {
       }
     };
     fetchPoll();
-  }, [slug]);
+  }, [poll_id]);
 
   // Toggle option select/deselect
   const handleOptionChange = (optionId) => {
@@ -82,15 +84,16 @@ const PollVotingPage = () => {
 
       <div className="poll-options">
         {poll.pollOptions && poll.pollOptions.length > 0 ? (
-
-
           poll.pollOptions.map((option) => {
             const selectedIdx = selectedOptions.indexOf(option.option_id);
             //For each option, this checks if it’s selected and finds its position in the array(Selectedoptions).
             //If the option is selected, it returns its index (0 for first, 1 for second, etc.).
             //If not selected, it returns -1
             return (
-              <label key={option.option_id} className={`poll-option${selectedIdx !== -1 ? " stomp" : ""}`}>
+              <label
+                key={option.option_id}
+                className={`poll-option${selectedIdx !== -1 ? " stomp" : ""}`}
+              >
                 {selectedIdx !== -1 && (
                   <span className="option-rank-badge">{selectedIdx + 1}</span>
                 )}
@@ -105,8 +108,6 @@ const PollVotingPage = () => {
               </label>
             );
           })
-
-
         ) : (
           <p>No options available for this poll.</p>
         )}
