@@ -18,8 +18,8 @@ import CreatePollForm from "./components/CreatePollForm";
 import MyPolls from "./components/MyPolls";
 import LivePolls from "./components/LivePolls";
 import LivePoll from "./components/LivePoll";
-//import PollForm from "./components/PollForm";
-import Results from "./components/Results";
+import PollForm from "./components/PollForm";
+// import Results from "./components/Results";
 import PollVotingPage from "./components/PollVotingPage";
 
 const App = () => {
@@ -80,7 +80,8 @@ const App = () => {
           <Route exact path="/" element={<Home />} />
           <Route path="/MyPolls" element={<MyPolls user={user} />} />
           <Route path="*" element={<NotFound />} />
-          <Route path="/results/:poll_id" element={<Results />} />
+          <Route path="/PollForm/:poll_id" element={<PollForm user={user} />} />
+          {/* <Route path="/Results/:poll_id" element={<Results />} />  */}
         </Routes>
       </div>
     </div>

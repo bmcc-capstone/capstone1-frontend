@@ -3,9 +3,8 @@ import axios from "axios";
 import "./MyPolls.css";
 import { API_URL } from "../shared";
 import PollCard from "./pollCard";
-import { Link } from "react-router-dom";
 
-const MyPoll = () => {
+const MyPolls = () => {
   const [polls, setPolls] = useState([]);
   const [tallies, setTallies] = useState({});
   const [error, setError] = useState("");
@@ -35,9 +34,15 @@ const MyPoll = () => {
         const tallyResults = await Promise.all(
           findPolls.data.map(async (poll) => {
             try {
-              const res = await axios.get(`${API_URL}/api/tally/votes/${poll.poll_id}`, {withCredentials: true});
+              const res = await axios.get(
+                `${API_URL}/api/tally/votes/${poll.poll_id}`,
+                { withCredentials: true }
+              );
               // Sum all voteCounts for this poll
-              const totalVotes = res.data.reduce((sum, item) => sum + (item.voteCount || 0), 0);
+              const totalVotes = res.data.reduce(
+                (sum, item) => sum + (item.voteCount || 0),
+                0
+              );
               return { poll_id: poll.poll_id, totalVotes };
             } catch {
               return { poll_id: poll.poll_id, totalVotes: 0 };
@@ -50,7 +55,6 @@ const MyPoll = () => {
           tallyObj[poll_id] = totalVotes;
         });
         setTallies(tallyObj);
-
       } catch (err) {
         console.error(err);
         setError("Failed to load your polls ❌");
@@ -71,19 +75,14 @@ const MyPoll = () => {
       ) : (
         <div className="poll-list">
           {polls.map((poll) => (
-            <Link
+            <PollCard
               key={poll.poll_id}
-              to={`/livepolls/${poll.poll_id}`}
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              <PollCard
-                id={poll.poll_id}
-                title={poll.title}
-                description={poll.description}
-                expires_date={poll.expires_date}
-                totalVotes={tallies[poll.poll_id]}
-              />
-            </Link>
+              id={poll.poll_id}
+              title={poll.title}
+              description={poll.description}
+              expires_date={poll.expires_date}
+              totalVotes={tallies[poll.poll_id]}
+            />
           ))}
         </div>
       )}
@@ -91,4 +90,4 @@ const MyPoll = () => {
   );
 };
 
-export default MyPoll;
+export default MyPolls;
