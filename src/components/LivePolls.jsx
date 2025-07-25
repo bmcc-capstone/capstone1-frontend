@@ -162,7 +162,7 @@ const LivePolls = () => {
                         </p>
                       </div>
                       {/* Link to vote page for this poll */}
-                      <Link to={`/livepolls/${poll.poll_id}`} className="vote-link">
+                      <Link to={`/pollVotingPage/${poll.slug}`} className="vote-link">
                         Go to Vote Page
                       </Link>
                     </>
@@ -232,6 +232,10 @@ const LivePolls = () => {
                           <strong>Expired:</strong>{" "}
                           {new Date(poll.expires_date).toLocaleString()}
                         </p>
+
+                        <Link to={`/results/${poll.slug}`} className="vote-link">
+                        Go to Results Page
+                      </Link>
                       </div>
                       {/* No vote link for expired polls */}
                     </>

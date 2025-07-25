@@ -75,10 +75,9 @@ const App = () => {
           <Route exact path="/" element={<Home />} />
           <Route path="/MyPolls" element={<MyPolls user={user} />} />
           <Route path="*" element={<NotFound />} />
-          <Route path="/PollForm/:slug" element={<PollForm user={user} />} />
-          <Route path="/Results/:slug" element={<Results />} />
+          <Route path="/pollVotingPage/:slug" element={<PollVotingPage user={user} />} />
+          <Route path="/results/:slug" element={<Results />} />
           <Route path="/share/:id" element={<ShareableLinkPage />} />
-          <Route path="/results/:poll_id" element={<Results />} />
         </Routes>
       </div>
     </div>
