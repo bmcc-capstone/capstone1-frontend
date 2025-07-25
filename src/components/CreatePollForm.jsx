@@ -11,7 +11,9 @@ const CreatePollForm = () => {
   const [publicPoll, setPublicPoll] = useState(false);
   const [message, setMessage] = useState("");
   const [expirationDate, setExpirationDate] = useState("");
+
   const [userId, setUserId] = useState("");
+
   const [showConfirm, setShowConfirm] = useState(false);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const nav = useNavigate();
@@ -91,13 +93,17 @@ const CreatePollForm = () => {
         withCredentials: true,
       });
 
+
       const poll_id = response.data.poll.id;
       setPollId(poll_id);
+
       // Save all options
       await Promise.all(
         options.map((opt) =>
           axios.post(
+
             `${API_URL}/api/poll-options`,
+
             {
               poll_id,
               option_text: opt,
@@ -133,13 +139,17 @@ const CreatePollForm = () => {
       };
 
       const response = await axios.post(
+
         `${API_URL}/api/polls/${userId}`,
+
         payload,
         { withCredentials: true }
       );
 
+
       console.log(response.data);
       const poll_id = response.data.poll.poll_id;
+
 
       await Promise.all(
         options.map((opt) =>
@@ -156,7 +166,9 @@ const CreatePollForm = () => {
 
       setMessage("Vote Poll Created Successfully ✅");
       handleResetConfirmed();
+
       nav(`/share/${poll_id}`);
+
     } catch (err) {
       console.error(err);
       setMessage(err.response?.data?.error || "Failed to create vote poll ❌");

@@ -83,6 +83,7 @@ const PollVotingPage = () => {
       <div className="poll-options">
         {poll.pollOptions && poll.pollOptions.length > 0 ? (
 
+
           poll.pollOptions.map((option) => {
             const selectedIdx = selectedOptions.indexOf(option.option_id);
             //For each option, this checks if it’s selected and finds its position in the array(Selectedoptions).
@@ -104,6 +105,7 @@ const PollVotingPage = () => {
               </label>
             );
           })
+
 
         ) : (
           <p>No options available for this poll.</p>
