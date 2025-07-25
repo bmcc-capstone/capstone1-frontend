@@ -139,16 +139,14 @@ const CreatePollForm = () => {
       };
 
       const response = await axios.post(
-
         `${API_URL}/api/polls/${userId}`,
-
         payload,
         { withCredentials: true }
       );
 
 
       console.log(response.data);
-      const poll_id = response.data.poll.poll_id;
+      const poll_id = response.data.poll_id;
 
 
       await Promise.all(
