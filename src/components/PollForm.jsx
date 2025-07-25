@@ -11,11 +11,22 @@ const PollForm = () => {
   // All poll options fetched from backend
   const [options, setOptions] = useState([]);
 
+  const [ballotItems, setBallotItems] = useState([]);
   // Array of selected options, in order they were clicked
   const [selectedOptions, setSelectedOptions] = useState([]);
 
   // Fetch poll options when component starts or the poll_id changes
   useEffect(() => {
+    const fetchballotItems = async () => {
+      const response = await axios.get(
+        `${API_URL}/api/ballotItems/${poll_id}`,
+        {
+          withCredentials: true,
+        }
+      );
+    };
+    fetchballotItems();
+
     const fetchOptions = async () => {
       try {
         const response = await axios.get(
@@ -77,6 +88,7 @@ const PollForm = () => {
       console.error("Failed to update ranks:", error);
     }
   };
+
   return <h1>hello</h1>;
 };
 
