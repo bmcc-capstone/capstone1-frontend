@@ -17,11 +17,8 @@ import { API_URL } from "./shared";
 import CreatePollForm from "./components/CreatePollForm";
 import MyPolls from "./components/MyPolls";
 import LivePolls from "./components/LivePolls";
-import LivePoll from "./components/LivePoll";
-
-
-import PollForm from "./components/PollForm";
-
+// import LivePoll from "./components/LivePoll";
+//import PollForm from "./components/PollForm";
 import Results from "./components/Results";
 import PollVotingPage from "./components/PollVotingPage";
 import ShareableLinkPage from "./components/shareableLink";
@@ -68,9 +65,12 @@ const App = () => {
       <NavBar user={user} onLogout={handleLogout} />
       <div className="app">
         <Routes>
-          <Route path="/CreatePollForm" element={<CreatePollForm user={user} />}/>
+          <Route
+            path="/CreatePollForm"
+            element={<CreatePollForm user={user} />}
+          />
           <Route path="/livepolls/:pollId" element={<PollVotingPage />} />
-          <Route path="/LivePoll" element={<LivePoll />} />
+          {/* <Route path="/LivePoll" element={<LivePoll />} /> */}
           <Route path="/LivePolls" element={<LivePolls />} />
           <Route path="/My Polls" element={<MyPolls />} />
           <Route path="/login" element={<Login setUser={setUser} />} />
@@ -78,11 +78,8 @@ const App = () => {
           <Route exact path="/" element={<Home />} />
           <Route path="/MyPolls" element={<MyPolls user={user} />} />
           <Route path="*" element={<NotFound />} />
-
-          <Route path="/PollForm/:slug" element={<PollForm user={user} />} />
           <Route path="/Results/:slug" element={<Results />} />
           <Route path="/share/:id" element={<ShareableLinkPage />} />
-
         </Routes>
       </div>
     </div>

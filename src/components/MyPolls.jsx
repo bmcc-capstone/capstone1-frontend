@@ -16,6 +16,7 @@ const MyPolls = () => {
         const userData = await axios.get(`${API_URL}/auth/me`, {
           withCredentials: true,
         });
+        console.log("auth/me response:", userData.data);
         const username = userData.data.user?.username;
         if (!username) throw new Error("No username found");
 
