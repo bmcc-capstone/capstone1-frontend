@@ -1,7 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
 require("dotenv").config();
-
+console.log(process.env.API_URL);
 module.exports = {
   mode: "development",
   entry: "./src/App.jsx",
