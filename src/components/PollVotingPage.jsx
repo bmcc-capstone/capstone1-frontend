@@ -71,23 +71,38 @@ const PollVotingPage = () => {
 
   return (
     <div className="poll-vote-container">
-      <h2>Vote: {poll.title}</h2>
-      <p>{poll.description}</p>
+      <div className="poll-vote-header">
+        <div className="vote-label">Vote</div>
+        <div className="poll-title-main">{poll.title}</div>
+        <div className="poll-header-divider"></div>
+        <p className="poll-description">{poll.description}</p>
+      </div>
 
       <div className="poll-options">
         {poll.pollOptions && poll.pollOptions.length > 0 ? (
-          poll.pollOptions.map((option) => (
-            <label key={option.option_id} className="poll-option">
-              <input
-                type="checkbox"
-                name="pollOption"
-                value={option.option_id}
-                checked={selectedOptions.includes(option.option_id)}
-                onChange={() => handleOptionChange(option.option_id)}
-              />
-              {option.option_text}
-            </label>
-          ))
+
+          poll.pollOptions.map((option) => {
+            const selectedIdx = selectedOptions.indexOf(option.option_id);
+            //For each option, this checks if it’s selected and finds its position in the array(Selectedoptions).
+            //If the option is selected, it returns its index (0 for first, 1 for second, etc.).
+            //If not selected, it returns -1
+            return (
+              <label key={option.option_id} className={`poll-option${selectedIdx !== -1 ? " stomp" : ""}`}>
+                {selectedIdx !== -1 && (
+                  <span className="option-rank-badge">{selectedIdx + 1}</span>
+                )}
+                <input
+                  type="checkbox"
+                  name="pollOption"
+                  value={option.option_id}
+                  checked={selectedOptions.includes(option.option_id)}
+                  onChange={() => handleOptionChange(option.option_id)}
+                />
+                {option.option_text}
+              </label>
+            );
+          })
+
         ) : (
           <p>No options available for this poll.</p>
         )}

@@ -45,7 +45,7 @@ const Login = ({ setUser }) => {
         withCredentials: true,
       });
 
-      setUser(response.data.user);
+      await setUser(response.data.user);
       navigate("/MyPolls");
     } catch (error) {
       if (error.response?.data?.error) {
