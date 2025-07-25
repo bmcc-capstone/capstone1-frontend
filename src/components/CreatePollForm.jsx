@@ -155,6 +155,7 @@ const CreatePollForm = () => {
       setMessage("Vote Poll Created Successfully ✅");
       handleResetConfirmed();
       nav("/MyPolls");
+      nav("/MyPolls");
     } catch (err) {
       console.error(err);
       setMessage(err.response?.data?.error || "Failed to create vote poll ❌");
