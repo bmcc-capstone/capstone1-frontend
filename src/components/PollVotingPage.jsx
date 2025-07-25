@@ -5,9 +5,10 @@ import { API_URL } from "../shared";
 import "./PollVotingPage.css";
 
 const PollVotingPage = () => {
-  const { pollId } = useParams();
+  const { slug } = useParams();
   const navigate = useNavigate();
 
+  const [pollId, setPollId] = useState("");
   const [poll, setPoll] = useState(null);
   const [selectedOptions, setSelectedOptions] = useState([]); // array of option_ids
   const [error, setError] = useState("");
@@ -16,15 +17,16 @@ const PollVotingPage = () => {
   useEffect(() => {
     const fetchPoll = async () => {
       try {
-        const response = await axios.get(`${API_URL}/api/polls/poll/${pollId}`);
+        const response = await axios.get(`${API_URL}/api/polls/${slug}`);
         setPoll(response.data);
+        setPollId(response.data.poll_id);
       } catch (err) {
         console.error(err);
         setError("Failed to load poll ❌");
       }
     };
     fetchPoll();
-  }, [pollId]);
+  }, [slug]);
 
   // Toggle option select/deselect
   const handleOptionChange = (optionId) => {
