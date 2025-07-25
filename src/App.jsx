@@ -17,10 +17,8 @@ import { API_URL } from "./shared";
 import CreatePollForm from "./components/CreatePollForm";
 import MyPolls from "./components/MyPolls";
 import LivePolls from "./components/LivePolls";
-
-import LivePoll from "./components/LivePoll";
-import PollForm from "./components/PollForm";
-
+// import LivePoll from "./components/LivePoll";
+//import PollForm from "./components/PollForm";
 import Results from "./components/Results";
 import PollVotingPage from "./components/PollVotingPage";
 import ShareableLinkPage from "./components/shareableLink";

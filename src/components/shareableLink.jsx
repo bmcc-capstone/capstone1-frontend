@@ -23,7 +23,10 @@ const ShareableLinkPage = ({}) => {
       setError("Failed to fetch shareableLink ❌");
     }
   };
+<<<<<<< HEAD
+=======
 
+>>>>>>> 5e246e260f62a88ab499a41f0623d5c80c57b7ae
 
     fetchPollData();
   }, [id]);

@@ -169,7 +169,6 @@ const LivePolls = () => {
                         </p>
                       </div>
                       {/* Link to vote page for this poll */}
-
                       <Link to={`/pollVotingPage/${poll.slug}`} className="vote-link">
                         Go to Vote Page
                       </Link>
