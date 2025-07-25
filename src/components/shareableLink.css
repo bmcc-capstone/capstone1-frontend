@@ -1,0 +1,45 @@
+.shareableLinkContainer {
+    max-width: 750px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: beige;
+    border-radius: 16px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.07);
+    font-family: 'Segoe UI', sans-serif;
+    margin-bottom: 0.5rem;
+    min-height: 30vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    margin-bottom: 20%;
+}
+
+.linkInformation {
+    margin-top: 10%;
+    display: flex;
+    flex-direction: column;
+}
+
+.linkInformation p {
+    margin-bottom: 5%;
+}
+
+.linkInformation button {
+    display: block;
+    width: 100%;
+    margin-top: 0.8rem;
+    background-color: rgb(34, 171, 217);
+    color: #fff;
+    border: none;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.linkInformation button:hover {
+    background-color: rgb(39, 184, 232);
+}
