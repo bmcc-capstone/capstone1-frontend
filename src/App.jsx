@@ -19,7 +19,7 @@ import MyPolls from "./components/MyPolls";
 import LivePolls from "./components/LivePolls";
 import LivePoll from "./components/LivePoll";
 
-import PollForm from "./components/PollForm";
+
 //import PollForm from "./components/PollForm";
 
 import Results from "./components/Results";
@@ -78,9 +78,11 @@ const App = () => {
           <Route exact path="/" element={<Home />} />
           <Route path="/MyPolls" element={<MyPolls user={user} />} />
           <Route path="*" element={<NotFound />} />
+
           <Route path="/PollForm/:slug" element={<PollForm user={user} />} />
           <Route path="/Results/:slug" element={<Results />} />
           <Route path="/share/:id" element={<ShareableLinkPage />} />
+
         </Routes>
       </div>
     </div>
