@@ -11,7 +11,7 @@ const CreatePollForm = () => {
   const [publicPoll, setPublicPoll] = useState(false);
   const [message, setMessage] = useState("");
   const [expirationDate, setExpirationDate] = useState("");
-  const [userId, setUserId] = useState("");
+  const [user_id, setUserId] = useState("");
   const [showConfirm, setShowConfirm] = useState(false);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const nav = useNavigate();
