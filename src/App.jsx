@@ -20,7 +20,7 @@ import LivePolls from "./components/LivePolls";
 import LivePoll from "./components/LivePoll";
 
 
-//import PollForm from "./components/PollForm";
+import PollForm from "./components/PollForm";
 
 import Results from "./components/Results";
 import PollVotingPage from "./components/PollVotingPage";
