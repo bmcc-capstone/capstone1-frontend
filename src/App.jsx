@@ -17,7 +17,7 @@ import { API_URL } from "./shared";
 import CreatePollForm from "./components/CreatePollForm";
 import MyPolls from "./components/MyPolls";
 import LivePolls from "./components/LivePolls";
-import LivePoll from "./components/LivePoll";
+// import LivePoll from "./components/LivePoll";
 //import PollForm from "./components/PollForm";
 import Results from "./components/Results";
 import PollVotingPage from "./components/PollVotingPage";
@@ -71,7 +71,7 @@ const App = () => {
             element={<CreatePollForm user={user} />}
           />
           <Route path="/livepolls/:pollId" element={<PollVotingPage />} />
-          <Route path="/LivePoll" element={<LivePoll />} />
+          {/* <Route path="/LivePoll" element={<LivePoll />} /> */}
           <Route path="/LivePolls" element={<LivePolls />} />
           <Route path="/My Polls" element={<MyPolls />} />
 
