@@ -2,7 +2,7 @@
     max-width: 700px;
     margin: 2rem auto;
     padding: 2rem;
-    background: beige;
+    background: white;
     border-radius: 16px;
     box-shadow: 0 4px 18px rgba(0, 0, 0, 0.07);
     font-family: 'Segoe UI', sans-serif;
@@ -13,8 +13,11 @@
 .mypoll-container div {
   align-items: center;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;;
+  justify-content: space-between;
 }
+
   .mypoll-container h2 {
     text-align: center;
     margin-bottom: 1.5rem;
