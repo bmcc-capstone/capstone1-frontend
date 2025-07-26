@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { createRoot } from "react-dom/client";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import "./AppStyles.css";
 import NavBar from "./components/NavBar";
@@ -18,11 +17,14 @@ import { API_URL } from "./shared";
 import CreatePollForm from "./components/CreatePollForm";
 import MyPolls from "./components/MyPolls";
 import LivePolls from "./components/LivePolls";
-import PollForm from "./components/PollForm";
+// import LivePoll from "./components/LivePoll";
+//import PollForm from "./components/PollForm";
+import Results from "./components/Results";
+import PollVotingPage from "./components/PollVotingPage";
+import ShareableLinkPage from "./components/shareableLink";
 
 const App = () => {
   const [user, setUser] = useState(null);
-  const [draft, setDraft] = useState([]);
   const nav = useNavigate();
   const checkAuth = async () => {
     try {
@@ -35,8 +37,6 @@ const App = () => {
       setUser(null);
     }
   };
-
-  console.log(user?.user_id);
 
   // Check authentication status on app load
   useEffect(() => {
@@ -69,16 +69,20 @@ const App = () => {
             path="/CreatePollForm"
             element={<CreatePollForm user={user} />}
           />
-          <Route path="/livepoll/" element={<LivePolls />} />
-          <Route path="/My Polls" element={<MyPolls draft={draft} />} />
-
+          {/* <Route path="/LivePoll" element={<LivePoll />} /> */}
+          <Route path="/LivePolls" element={<LivePolls />} />
+          <Route path="/My Polls" element={<MyPolls />} />
           <Route path="/login" element={<Login setUser={setUser} />} />
           <Route path="/signup" element={<Signup setUser={setUser} />} />
           <Route exact path="/" element={<Home />} />
-          <Route path="*" element={<NotFound />} />
           <Route path="/MyPolls" element={<MyPolls user={user} />} />
           <Route path="*" element={<NotFound />} />
-          <Route path="/PollForm/:poll_id" element={<PollForm user={user} />} />
+          <Route
+            path="/pollVotingPage/:poll_id"
+            element={<PollVotingPage user={user} />}
+          />
+          <Route path="/results/:poll_id" element={<Results />} />
+          <Route path="/share/:id" element={<ShareableLinkPage />} />
         </Routes>
       </div>
     </div>
