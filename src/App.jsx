@@ -80,7 +80,7 @@ const App = () => {
           <Route path="*" element={<NotFound />} />
           <Route
             path="/pollVotingPage/:poll_id"
-            element={<PollVotingPage user={user} />}
+            element={<PollVotingPage key={window.location.pathname} user={user} />}
           />
           <Route path="/results/:poll_id" element={<Results />} />
           <Route path="/share/:id" element={<ShareableLinkPage />} />
