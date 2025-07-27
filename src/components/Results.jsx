@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import "./Results.css";
 import { API_URL } from "../shared";
 import {
   Chart as ChartJS,
@@ -152,13 +153,37 @@ const Results = () => {
     };
 
     return (
-      <div style={{ width: "100%", height: "500px", margin: "0 auto" }}>
+      <div className="results-chart-container">
         <Bar data={chartData} options={options} />
       </div>
     );
   };
 
-  return <div className="results-page">{renderBarChart()};</div>;
+  const getWinnerText = () => {
+    if (!results || !poll || !results.winner) return null;
+    const winnerOption = poll.pollOptions.find(
+      (opt) => String(opt.option_id) === String(results.winner)
+    );
+    return winnerOption ? winnerOption.option_text : null;
+  };
+
+  return (
+    <div className="results-page">
+      <div className="results-header">
+        <h2 className="results-title">{poll.title}</h2>
+        <p className="results-description">{poll.description}</p>
+        {getWinnerText() && (
+          <div className="winner-banner">
+            <strong>Winner:</strong>{" "}
+            <span className="winner-text">{getWinnerText()}</span>
+          </div>
+        )}
+      </div>
+      <div className="results-chart-container">
+        {renderBarChart()}
+      </div>
+    </div>
+  );
 };
 
 export default Results;
