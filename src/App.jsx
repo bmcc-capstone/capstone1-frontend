@@ -22,6 +22,7 @@ import LivePolls from "./components/LivePolls";
 import Results from "./components/Results";
 import PollVotingPage from "./components/PollVotingPage";
 import ShareableLinkPage from "./components/shareableLink";
+import CheckPollPage from "./components/checkPage";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -79,10 +80,11 @@ const App = () => {
           <Route path="*" element={<NotFound />} />
           <Route
             path="/pollVotingPage/:poll_id"
-            element={<PollVotingPage user={user} />}
+            element={<PollVotingPage key={window.location.pathname} user={user} />}
           />
           <Route path="/results/:poll_id" element={<Results />} />
           <Route path="/share/:id" element={<ShareableLinkPage />} />
+          <Route path="/check/:slug" element={<CheckPollPage/>} />
         </Routes>
       </div>
     </div>

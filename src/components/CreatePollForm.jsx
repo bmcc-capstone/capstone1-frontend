@@ -207,6 +207,7 @@ const CreatePollForm = () => {
         );
         const newPollId = response.data.poll_id;
         setPollId(newPollId);
+        nav(`/share/${newPollId}`);
         await Promise.all(
           options.map(async (option) => {
             await axios.post(
@@ -224,7 +225,6 @@ const CreatePollForm = () => {
 
       setMessage("Vote Poll Created Successfully ✅");
       handleResetConfirmed();
-      nav("/MyPolls");
     } catch (err) {
       console.error(err);
       setMessage(err.response?.data?.error || "Failed to create vote poll ❌");
