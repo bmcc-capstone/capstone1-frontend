@@ -15,8 +15,10 @@ const ShareableLinkPage = ({}) => {
         const pollData = await axios.get(`${API_URL}/api/polls/poll/${id}`, {
           withCredentials: true,
         });
-
+      
+      console.log(pollData);
       const link = pollData.data.shareableLink;
+      console.log(link);
       setLink(link);
     } catch (err) {
       console.error(err);

@@ -14,6 +14,7 @@ const PollVotingPage = () => {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
 
+  console.log("Poll Id: ",poll_id)
   useEffect(() => {
     const fetchPoll = async () => {
       try {
